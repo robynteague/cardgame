@@ -24,8 +24,19 @@
         }
 
         h1, h2 {
-            font-size: 50%;
+            font-size: 100%;
             font-family: sans-serif;
+        }
+        #sharedExtraDeck {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Adjust the number of columns as needed */
+            gap: 10px; /* Adjust the gap between cards */
+        }
+    
+        .player-hand {
+            display: flex;
+            justify-content: space-between;
+            margin: 0 -5px; /* Add negative margin to handle spacing between cards */
         }
     </style>
 </head>
