@@ -17,11 +17,24 @@
         .red {
             color: red;
         }
+        #gameContainer {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        #sharedExtraDeck {
+            align-self: center;
+        }
     </style>
 </head>
 <body>
     <h1>Card Game 1:43</h1>
     <button id="startGame">Start Game</button>
+    <div id="gameContainer">
+        <div id="players"></div>
+        <div id="sharedExtraDeck"></div>
+    </div>
     <div id="players"></div>
     <div id="sharedExtraDeck"></div>
 
@@ -99,16 +112,16 @@
         function displayHands(hands) {
             const playersDiv = document.getElementById('players');
             playersDiv.innerHTML = '';
-
+        
             hands.forEach((hand, index) => {
                 const playerSection = document.createElement('div');
                 playerSection.classList.add('player-section');
-
+        
                 // Player Hand
                 const handDiv = document.createElement('div');
                 handDiv.classList.add('player-hand');
                 handDiv.innerHTML = `<h2>Player ${index + 1} Hand</h2>`;
-
+        
                 hand.forEach(card => {
                     const cardDiv = document.createElement('div');
                     cardDiv.classList.add('card');
@@ -116,24 +129,16 @@
                     cardDiv.textContent = `${card.rank}${getSuitSymbol(card.suit)}`;
                     handDiv.appendChild(cardDiv);
                 });
-
-                playerSection.appendChild(handDiv);
-
-                // King Zone
-                const kingZoneDiv = document.createElement('div');
-                kingZoneDiv.classList.add('king-zone');
-                kingZoneDiv.innerHTML = `<h2>Player ${index + 1} King Zone</h2>`;
-
-                // Add King of Spades to Player 1's King Zone and King of Clubs to Player 2's King Zone
-                if (index === 0 || index === 1) {
-                    const kingCard = document.createElement('div');
-                    kingCard.classList.add('card');
-                    kingCard.textContent = `K${getSuitSymbol(index === 0 ? 'spades' : 'clubs')}`;
-                    kingZoneDiv.appendChild(kingCard);
+        
+                // If Player 2, reverse the order of hand and king zone
+                if (index === 1) {
+                    playerSection.appendChild(kingZoneDiv);
+                    playerSection.appendChild(handDiv);
+                } else {
+                    playerSection.appendChild(handDiv);
+                    playerSection.appendChild(kingZoneDiv);
                 }
-
-                playerSection.appendChild(kingZoneDiv);
-
+        
                 playersDiv.appendChild(playerSection);
             });
         }
