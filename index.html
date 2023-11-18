@@ -95,18 +95,24 @@
                 const kingZoneDiv = document.createElement('div');
                 kingZoneDiv.classList.add('king-zone');
                 kingZoneDiv.innerHTML = `<h2>Player ${index + 1} King Zone</h2>`;
+        
+                // Add specific King card to each player's King Zone
+                const kingCard = document.createElement('div');
+                kingCard.classList.add('card');
+                if (index === 0) {
+                    // Player 1 gets King of Spades
+                    kingCard.textContent = `K${getSuitSymbol('spades')}`;
+                    kingCard.classList.add('black'); // Assuming you might want a class for black suits
+                } else if (index === 1) {
+                    // Player 2 gets King of Clubs
+                    kingCard.textContent = `K${getSuitSymbol('clubs')}`;
+                    kingCard.classList.add('black'); // Assuming you might want a class for black suits
+                }
+                kingZoneDiv.appendChild(kingCard);
                 playerSection.appendChild(kingZoneDiv);
-
+        
                 playersDiv.appendChild(playerSection);
-            });
-        }
-
-        document.getElementById('startGame').addEventListener('click', () => {
-            const deck = createDeck();
-            shuffleDeck(deck);
-            const playerHands = dealCards(deck, 2); // for 2 players
-            displayHands(playerHands);
-        });
+    });
     </script>
 </body>
 </html>
