@@ -11,8 +11,12 @@
             margin: 5px;
             display: inline-block;
         }
-        .player-hand {
+        .player-hand, .king-zone {
             margin-bottom: 20px;
+        }
+        .king-zone {
+            border-top: 2px dashed #000;
+            padding-top: 10px;
         }
         .red {
             color: red;
@@ -51,12 +55,22 @@
 
         function dealCards(deck, numPlayers) {
             const hands = [];
+            const kingZones = [{}, {}]; // King zones for two players
 
             for (let i = 0; i < numPlayers; i++) {
                 hands.push(deck.splice(0, 2));
             }
 
-            return hands;
+            // Assigning the King of Spades to Player 1 and King of Clubs to Player 2
+            for (let card of deck) {
+                if (card.rank === 'K' && card.suit === 'spades') {
+                    kingZones[0] = card; // Player 1 King Zone
+                } else if (card.rank === 'K' && card.suit === 'clubs') {
+                    kingZones[1] = card; // Player 2 King Zone
+                }
+            }
+
+            return { hands, kingZones };
         }
 
         function getSuitSymbol(suit) {
@@ -69,14 +83,15 @@
             return suitSymbols[suit];
         }
 
-        function displayHands(hands) {
+        function displayHands(gameData) {
             const playersDiv = document.getElementById('players');
             playersDiv.innerHTML = '';
 
-            hands.forEach((hand, index) => {
+            gameData.hands.forEach((hand, index) => {
+                // Player Hand
                 const handDiv = document.createElement('div');
                 handDiv.classList.add('player-hand');
-                handDiv.innerHTML = `<h2>Player ${index + 1} Hand</h2>`; // Updated naming
+                handDiv.innerHTML = `<h2>Player ${index + 1} Hand</h2>`;
 
                 hand.forEach(card => {
                     const cardDiv = document.createElement('div');
@@ -88,16 +103,33 @@
                     handDiv.appendChild(cardDiv);
                 });
 
+                // Player King Zone
+                const kingZoneDiv = document.createElement('div');
+                kingZoneDiv.classList.add('king-zone');
+                kingZoneDiv.innerHTML = `<h2>Player ${index + 1} King Zone</h2>`;
+                const kingCard = gameData.kingZones[index];
+                if (kingCard.rank) {
+                    const cardDiv = document.createElement('div');
+                    cardDiv.classList.add('card');
+                    if (kingCard.suit === 'hearts' or kingCard.suit === 'diamonds') {
+                        cardDiv.classList.add('red');
+                    }
+                    cardDiv.textContent = `${kingCard.rank}${getSuitSymbol(kingCard.suit)}`;
+                    kingZoneDiv.appendChild(cardDiv);
+                }
+
                 playersDiv.appendChild(handDiv);
+                playersDiv.appendChild(kingZoneDiv);
             });
         }
 
         document.getElementById('startGame').addEventListener('click', () => {
             const deck = createDeck();
             shuffleDeck(deck);
-            const playerHands = dealCards(deck, 2); // for 2 players
-            displayHands(playerHands);
+            const gameData = dealCards(deck, 2); // for 2 players
+            displayHands(gameData);
         });
     </script>
 </body>
 </html>
+
