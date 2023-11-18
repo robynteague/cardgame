@@ -20,10 +20,11 @@
     </style>
 </head>
 <body>
-    <h1>Card Game 2:15</h1>
+    <h1>Card Game 2:19</h1>
     <button id="startGame">Start Game</button>
-    <div id="players"></div>
+    <div id="player1"></div>
     <div id="sharedExtraDeck"></div>
+    <div id="player2"></div>
 
     <script>
         function colorCard(cardDiv, card) {
@@ -97,7 +98,7 @@
         }
 
         function displayHands(hand, playerNumber) {
-            const playersDiv = document.getElementById('players');
+            const playersDiv = document.getElementById(`player${playerNumber}`);
 
             const playerSection = document.createElement('div');
             playerSection.classList.add('player-section');
@@ -138,8 +139,9 @@
             shuffleDeck(deck);
             const playerHands = dealCards(deck, 2); // for 2 players
 
-            const playersDiv = document.getElementById('players');
-            playersDiv.innerHTML = '';
+            document.getElementById('player1').innerHTML = '';
+            document.getElementById('player2').innerHTML = '';
+            document.getElementById('sharedExtraDeck').innerHTML = '';
 
             // Display Player 1's Hand and King Zone
             displayHands(playerHands[0], 1);
