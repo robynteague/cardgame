@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Game</title>
+    <style>
+        .card {
+            border: 1px solid #000;
+            padding: 10px;
+            margin: 5px;
+            display: inline-block;
+        }
+        .player-hand {
+            margin-bottom: 20px;
+        }
+        .red {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Card Game</h1>
+    <button id="startGame">Start Game</button>
+    <div id="players"></div>
+
+    <script>
+        function createDeck() {
+            const suits = ['hearts', 'diamonds', 'clubs', 'spades'];
+            const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+            const deck = [];
+
+            for (let suit of suits) {
+                for (let rank of ranks) {
+                    if (rank === 'K' && (suit === 'hearts' || suit === 'diamonds')) {
+                        continue; // Skip King of Hearts and King of Diamonds
+                    }
+                    deck.push({ rank, suit });
+                }
+            }
+
+            return deck;
+        }
+
+        function shuffleDeck(deck) {
+            for (let i = deck.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [deck[i], deck[j]] = [deck[j], deck[i]];
+            }
+        }
+
+        function dealCards(deck, numPlayers) {
+            const hands = [];
+
+            for (let i = 0; i < numPlayers; i++) {
+                hands.push(deck.splice(0, 2));
+            }
+
+            return hands;
+        }
+
+        function getSuitSymbol(suit) {
+            const suitSymbols = {
+                'hearts': '♥',
+                'diamonds': '♦',
+                'clubs': '♣',
+                'spades': '♠'
+            };
+            return suitSymbols[suit];
+        }
+
+        function displayHands(hands) {
+            const playersDiv = document.getElementById('players');
+            playersDiv.innerHTML = '';
+
+            hands.forEach((hand, index) => {
+                const handDiv = document.createElement('div');
+                handDiv.classList.add('player-hand');
+                handDiv.innerHTML = `<h2>Player ${index + 1} Hand</h2>`; // Updated naming
+
+                hand.forEach(card => {
+                    const cardDiv = document.createElement('div');
+                    cardDiv.classList.add('card');
+                    if (card.suit === 'hearts' || card.suit === 'diamonds') {
+                        cardDiv.classList.add('red');
+                    }
+                    cardDiv.textContent = `${card.rank}${getSuitSymbol(card.suit)}`;
+                    handDiv.appendChild(cardDiv);
+                });
+
+                playersDiv.appendChild(handDiv);
+            });
+        }
+
+        document.getElementById('startGame').addEventListener('click', () => {
+            const deck = createDeck();
+            shuffleDeck(deck);
+            const playerHands = dealCards(deck, 2); // for 2 players
+            displayHands(playerHands);
+        });
+    </script>
+</body>
+</html>
