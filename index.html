@@ -20,7 +20,7 @@
     </style>
 </head>
 <body>
-    <h1>Card Game 2:12</h1>
+    <h1>Card Game 2:15</h1>
     <button id="startGame">Start Game</button>
     <div id="players"></div>
     <div id="sharedExtraDeck"></div>
@@ -96,58 +96,57 @@
             return suitSymbols[suit];
         }
 
-        function displayHands(hands) {
+        function displayHands(hand, playerNumber) {
             const playersDiv = document.getElementById('players');
-            playersDiv.innerHTML = '';
 
-            hands.forEach((hand, index) => {
-                const playerSection = document.createElement('div');
-                playerSection.classList.add('player-section');
+            const playerSection = document.createElement('div');
+            playerSection.classList.add('player-section');
 
-                // Player Hand
-                const handDiv = document.createElement('div');
-                handDiv.classList.add('player-hand');
-                handDiv.innerHTML = `<h2>Player ${index + 1} Hand</h2>`;
+            // Player Hand
+            const handDiv = document.createElement('div');
+            handDiv.classList.add('player-hand');
+            handDiv.innerHTML = `<h2>Player ${playerNumber} Hand</h2>`;
 
-                hand.forEach(card => {
-                    const cardDiv = document.createElement('div');
-                    cardDiv.classList.add('card');
-                    colorCard(cardDiv, card); // Add this line
-                    cardDiv.textContent = `${card.rank}${getSuitSymbol(card.suit)}`;
-                    handDiv.appendChild(cardDiv);
-                });
-
-                // King Zone
-                const kingZoneDiv = document.createElement('div');
-                kingZoneDiv.classList.add('king-zone');
-                kingZoneDiv.innerHTML = `<h2>Player ${index + 1} King Zone</h2>`;
-
-                // Add King of Spades to Player 1's King Zone and King of Clubs to Player 2's King Zone
-                if (index === 0 || index === 1) {
-                    const kingCard = document.createElement('div');
-                    kingCard.classList.add('card');
-                    kingCard.textContent = `K${getSuitSymbol(index === 0 ? 'spades' : 'clubs')}`;
-                    kingZoneDiv.appendChild(kingCard);
-                }
-
-                if (index === 0) {
-                    playerSection.appendChild(handDiv);
-                    playerSection.appendChild(kingZoneDiv);
-                    playersDiv.appendChild(playerSection);
-                    displaySharedExtraDeck();
-                } else {
-                    playerSection.appendChild(kingZoneDiv);
-                    playerSection.appendChild(handDiv);
-                    playersDiv.appendChild(playerSection);
-                }
+            hand.forEach(card => {
+                const cardDiv = document.createElement('div');
+                cardDiv.classList.add('card');
+                colorCard(cardDiv, card);
+                cardDiv.textContent = `${card.rank}${getSuitSymbol(card.suit)}`;
+                handDiv.appendChild(cardDiv);
             });
+
+            // King Zone
+            const kingZoneDiv = document.createElement('div');
+            kingZoneDiv.classList.add('king-zone');
+            kingZoneDiv.innerHTML = `<h2>Player ${playerNumber} King Zone</h2>`;
+
+            // Add King of Spades to Player 1's King Zone and King of Clubs to Player 2's King Zone
+            if (playerNumber === 1 || playerNumber === 2) {
+                const kingCard = document.createElement('div');
+                kingCard.classList.add('card');
+                kingCard.textContent = `K${getSuitSymbol(playerNumber === 1 ? 'spades' : 'clubs')}`;
+                kingZoneDiv.appendChild(kingCard);
+            }
+
+            playerSection.appendChild(handDiv);
+            playerSection.appendChild(kingZoneDiv);
+            playersDiv.appendChild(playerSection);
         }
 
         document.getElementById('startGame').addEventListener('click', () => {
             const deck = createDeck();
             shuffleDeck(deck);
             const playerHands = dealCards(deck, 2); // for 2 players
-            displayHands(playerHands);
+
+            const playersDiv = document.getElementById('players');
+            playersDiv.innerHTML = '';
+
+            // Display Player 1's Hand and King Zone
+            displayHands(playerHands[0], 1);
+            // Display Shared Extra Deck
+            displaySharedExtraDeck();
+            // Display Player 2's King Zone and Hand
+            displayHands(playerHands[1], 2);
         });
     </script>
 </body>
