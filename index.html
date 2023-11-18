@@ -23,6 +23,7 @@
     <h1>Card Game 1:43</h1>
     <button id="startGame">Start Game</button>
     <div id="players"></div>
+    <div id="sharedExtraDeck"></div>
 
     <script>
         function colorCard(cardDiv, card) {
@@ -30,6 +31,27 @@
               cardDiv.classList.add('red');
           }
         }
+
+        function displaySharedExtraDeck() {
+            const sharedExtraDeckDiv = document.getElementById('sharedExtraDeck');
+            sharedExtraDeckDiv.innerHTML = '<h2>Shared Extra Deck</h2>';
+        
+            const cards = [
+                { rank: 'Q', suit: 'spades' },
+                { rank: 'Q', suit: 'clubs' },
+                { rank: 'J', suit: 'spades' },
+                { rank: 'J', suit: 'clubs' }
+            ];
+        
+            cards.forEach(card => {
+                const cardDiv = document.createElement('div');
+                cardDiv.classList.add('card');
+                colorCard(cardDiv, card);
+                cardDiv.textContent = `${card.rank}${getSuitSymbol(card.suit)}`;
+                sharedExtraDeckDiv.appendChild(cardDiv);
+            });
+        }
+                
         function createDeck() {
             const suits = ['hearts', 'diamonds', 'clubs', 'spades'];
             const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'A'];
@@ -38,6 +60,9 @@
             for (let suit of suits) {
                 for (let rank of ranks) {
                     deck.push({ rank, suit });
+                    if (!((suit === 'spades' || suit === 'clubs') && (rank === 'Q' || rank === 'J'))) {
+                        deck.push({ rank, suit });
+                    }
                 }
             }
 
@@ -118,6 +143,7 @@
             shuffleDeck(deck);
             const playerHands = dealCards(deck, 2); // for 2 players
             displayHands(playerHands);
+            displaySharedExtraDeck();
         });
     </script>
 </body>
