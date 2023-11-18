@@ -32,7 +32,7 @@
 
             for (let suit of suits) {
                 for (let rank of ranks) {
-                    if (rank === 'K' && (suit === 'hearts' or suit === 'diamonds')) {
+                    if (rank === 'K' && (suit === 'hearts' || suit === 'diamonds')) {
                         continue; // Skip King of Hearts and King of Diamonds
                     }
                     deck.push({ rank, suit });
