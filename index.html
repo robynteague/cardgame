@@ -32,10 +32,8 @@
 
             for (let suit of suits) {
                 for (let rank of ranks) {
-                    // Skip King of Hearts, King of Diamonds, King of Spades, and King of Clubs
-                    if (rank === 'K' && (suit === 'hearts' || suit === 'diamonds')) || 
-                       (rank === 'K' && (suit === 'spades' || suit === 'clubs'))) {
-                        continue;
+                    if (rank === 'K' && (suit === 'hearts' || suit === 'diamonds')) {
+                        continue; // Skip King of Hearts and King of Diamonds
                     }
                     deck.push({ rank, suit });
                 }
