@@ -11,7 +11,7 @@
             margin: 5px;
             display: inline-block;
         }
-        .player-hand {
+        .player-hand, .king-zone {
             margin-bottom: 20px;
         }
         .red {
@@ -32,7 +32,7 @@
 
             for (let suit of suits) {
                 for (let rank of ranks) {
-                    if (rank === 'K' && (suit === 'hearts' || suit === 'diamonds')) {
+                    if (rank === 'K' && (suit === 'hearts' or suit === 'diamonds')) {
                         continue; // Skip King of Hearts and King of Diamonds
                     }
                     deck.push({ rank, suit });
@@ -74,9 +74,13 @@
             playersDiv.innerHTML = '';
 
             hands.forEach((hand, index) => {
+                const playerSection = document.createElement('div');
+                playerSection.classList.add('player-section');
+
+                // Player Hand
                 const handDiv = document.createElement('div');
                 handDiv.classList.add('player-hand');
-                handDiv.innerHTML = `<h2>Player ${index + 1} Hand</h2>`; // Updated naming
+                handDiv.innerHTML = `<h2>Player ${index + 1} Hand</h2>`;
 
                 hand.forEach(card => {
                     const cardDiv = document.createElement('div');
@@ -88,7 +92,15 @@
                     handDiv.appendChild(cardDiv);
                 });
 
-                playersDiv.appendChild(handDiv);
+                playerSection.appendChild(handDiv);
+
+                // King Zone
+                const kingZoneDiv = document.createElement('div');
+                kingZoneDiv.classList.add('king-zone');
+                kingZoneDiv.innerHTML = `<h2>Player ${index + 1} King Zone</h2>`;
+                playerSection.appendChild(kingZoneDiv);
+
+                playersDiv.appendChild(playerSection);
             });
         }
 
