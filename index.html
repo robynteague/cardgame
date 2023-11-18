@@ -20,11 +20,16 @@
     </style>
 </head>
 <body>
-    <h1>Card Game 1:37</h1>
+    <h1>Card Game 1:43</h1>
     <button id="startGame">Start Game</button>
     <div id="players"></div>
 
     <script>
+        function colorCard(cardDiv, card) {
+          if (card.suit === 'hearts' || card.suit === 'diamonds') {
+              cardDiv.classList.add('red');
+          }
+        }
         function createDeck() {
             const suits = ['hearts', 'diamonds', 'clubs', 'spades'];
             const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'A'];
@@ -82,9 +87,7 @@
                 hand.forEach(card => {
                     const cardDiv = document.createElement('div');
                     cardDiv.classList.add('card');
-                    if (card.suit === 'hearts' || card.suit === 'diamonds') {
-                        cardDiv.classList.add('red');
-                    }
+                    colorCard(cardDiv, card); // Add this line
                     cardDiv.textContent = `${card.rank}${getSuitSymbol(card.suit)}`;
                     handDiv.appendChild(cardDiv);
                 });
@@ -103,7 +106,7 @@
                     kingCard.textContent = `K${getSuitSymbol(index === 0 ? 'spades' : 'clubs')}`;
                     kingZoneDiv.appendChild(kingCard);
                 }
-                
+
                 playerSection.appendChild(kingZoneDiv);
 
                 playersDiv.appendChild(playerSection);
