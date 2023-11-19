@@ -215,9 +215,8 @@
         function displayPlayerDeck(deck, playerNumber) {
             const deckDiv = document.createElement('div');
             deckDiv.classList.add('card', 'big-font');
-            deckDiv.textContent = deck.length;
+            deckDiv.innerHTML = `Deck<br>(${deck.length})`; // Add "Deck" before the number with a line break
             deckDiv.id = `player${playerNumber}Deck`; // Add an id to the deck card
-            deckDiv.style.fontSize = '50%'; // Make the text half as big
             deckDiv.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
 
             // Append the deck card to the player's div
