@@ -37,12 +37,13 @@
     </style>
 </head>
 <body>
-    <h1>Card Game 325</h1>
+    <h1>Card Game 345</h1>
     <button id="startGame">Start Game</button>
     <div id="player1"></div>
+    <div id="player1Deck"></div>
     <div id="sharedExtraDeck"></div>
     <div id="player2"></div>
-    <div id="deck"></div>
+    <div id="player2Deck"></div>
 
     <script>
         function colorCard(cardDiv, card) {
@@ -76,35 +77,29 @@
             sharedExtraDeckDiv.appendChild(cardContainer);
         }
 
-        function displayDeck(deck) {
-            const deckDiv = document.getElementById('deck');
-            deckDiv.innerHTML = '<h2>Deck</h2>';
-
-            const cardContainer = document.createElement('div');
-            cardContainer.classList.add('card-container');
-
-            const cardDiv = document.createElement('div');
-            cardDiv.classList.add('card');
-            cardDiv.textContent = deck.length;
-            cardContainer.appendChild(cardDiv);
-
-            deckDiv.appendChild(cardContainer);
-        }
-                
         function createDeck() {
             const suits = ['hearts', 'diamonds', 'clubs', 'spades'];
             const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'A'];
-            const deck = [];
+            const deck1 = [];
+            const deck2 = [];
 
             for (let suit of suits) {
                 for (let rank of ranks) {
                     if (!((suit === 'spades' || suit === 'clubs') && (rank === 'Q' || rank === 'J'))) {
-                        deck.push({ rank, suit });
+                        if (Math.random() < 0.5) {
+                            deck1.push({ rank, suit });
+                        } else {
+                            deck2.push({ rank, suit });
+                        }
                     }
                 }
             }
 
-            return deck;
+            return [deck1, deck2];
+        }
+
+        function dealCards(deck, numCards) {
+            return deck.splice(0, numCards);
         }
 
         function shuffleDeck(deck) {
@@ -112,16 +107,6 @@
                 const j = Math.floor(Math.random() * (i + 1));
                 [deck[i], deck[j]] = [deck[j], deck[i]];
             }
-        }
-
-        function dealCards(deck, numPlayers) {
-            const hands = [];
-
-            for (let i = 0; i < numPlayers; i++) {
-                hands.push(deck.splice(0, 2));
-            }
-
-            return hands;
         }
 
         function getSuitSymbol(suit) {
@@ -132,6 +117,21 @@
                 'spades': '♠'
             };
             return suitSymbols[suit];
+        }
+
+        function displayPlayerDeck(deck, playerNumber) {
+            const deckDiv = document.getElementById(`player${playerNumber}Deck`);
+            deckDiv.innerHTML = `<h2>Player ${playerNumber} Deck</h2>`;
+
+            const cardContainer = document.createElement('div');
+            cardContainer.classList.add('card-container');
+
+            const cardDiv = document.createElement('div');
+            cardDiv.classList.add('card');
+            cardDiv.textContent = deck.length;
+            cardContainer.appendChild(cardDiv);
+
+            deckDiv.appendChild(cardContainer);
         }
 
         function displayHands(hand, playerNumber) {
@@ -177,22 +177,24 @@
         }
 
         document.getElementById('startGame').addEventListener('click', () => {
-            const deck = createDeck();
-            shuffleDeck(deck);
-            const playerHands = dealCards(deck, 2); // for 2 players
+            const [deck1, deck2] = createDeck();
+            shuffleDeck(deck1);
+            shuffleDeck(deck2);
+            const player1Hand = dealCards(deck1, 2); // for player 1
+            const player2Hand = dealCards(deck2, 2); // for player 2
 
             document.getElementById('player1').innerHTML = '';
             document.getElementById('player2').innerHTML = '';
             document.getElementById('sharedExtraDeck').innerHTML = '';
 
-            // Display Player 1's Hand and King Zone
-            displayHands(playerHands[0], 1);
+            // Display Player 1's Hand, King Zone, and Deck
+            displayHands(player1Hand, 1);
+            displayPlayerDeck(deck1, 1);
             // Display Shared Extra Deck
             displaySharedExtraDeck();
-            // Display Player 2's King Zone and Hand
-            displayHands(playerHands[1], 2);
-            // Display Deck
-            displayDeck(deck);
+            // Display Player 2's King Zone, Hand, and Deck
+            displayHands(player2Hand, 2);
+            displayPlayerDeck(deck2, 2);
         });
     </script>
 </body>
