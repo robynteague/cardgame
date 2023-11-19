@@ -15,7 +15,7 @@
             width: 35px; 
             height: 50px; 
             box-sizing: border-box; 
-        }
+               }
         .player-hand, .king-zone {
             margin-bottom: 20px;
         }
@@ -35,71 +35,185 @@
             gap: 2px;
         }
 
-        .game-board {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-direction: column;
-        }
-
-        .player-zone {
+        .card-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             grid-template-rows: repeat(2, 1fr);
-            gap: 10px;
-        }
-
-        .zone {
-            border: 1px dotted #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .prison { grid-column: 1; grid-row: 1; }
-        .spell-zone { grid-column: 2 / span 3; grid-row: 1; }
-        .abyss { grid-column: 5; grid-row: 1; }
-        .king-zone { grid-column: 1; grid-row: 2; }
-        .monster-zone { grid-column: 2 / span 3; grid-row: 2; }
-        .deck { grid-column: 5; grid-row: 2; }
-
-        .shared-extra-deck {
-            margin: 50px 0; /* Adjust as needed */
-        }
-
-        #player1 {
-            transform: rotate(180deg);
-        }
-
-        #player1 .zone {
-            transform: rotate(-180deg);
+            gap: 2px;
         }
     </style>
 </head>
 <body>
     <h1>Card Game 325</h1>
     <button id="startGame">Start Game</button>
-    <div class="game-board">
-        <div class="player-zone" id="player1">
-            <div class="zone prison">Prison</div>
-            <div class="zone spell-zone">Spell Zone</div>
-            <div class="zone spell-zone">Spell Zone</div>
-            <div class="zone spell-zone">Spell Zone</div>
-            <div class="zone abyss">Abyss</div>
-            <div class="zone king-zone">King Zone</div>
-            <div class="zone monster-zone">Monster Zone</div>
-            <div class="zone monster-zone">Monster Zone</div>
-            <div class="zone monster-zone">Monster Zone</div>
-            <div class="zone deck">Deck</div>
-        </div>
-        <div class="shared-extra-deck" id="sharedExtraDeck">Shared Extra Deck</div>
-        <div class="player-zone" id="player2">
-            <!-- Player 2's zones here -->
-        </div>
-    </div>
+    <div id="player1"></div>
+    <div id="player1Deck"></div>
+    <div id="sharedExtraDeck"></div>
+    <div id="player2"></div>
+    <div id="player2Deck"></div>
 
     <script>
-        // The rest of the script remains unchanged
+        function colorCard(cardDiv, card) {
+          if (card.suit === 'hearts' || card.suit === 'diamonds') {
+              cardDiv.classList.add('red');
+          }
+        }
+
+        function displaySharedExtraDeck() {
+            const sharedExtraDeckDiv = document.getElementById('sharedExtraDeck');
+            sharedExtraDeckDiv.innerHTML = '<h2>Shared Extra Deck</h2>';
+        
+            const cards = [
+                { rank: 'Q', suit: 'spades' },
+                { rank: 'Q', suit: 'clubs' },
+                { rank: 'J', suit: 'spades' },
+                { rank: 'J', suit: 'clubs' }
+            ];
+
+            const cardContainer = document.createElement('div');
+            cardContainer.classList.add('card-container');
+        
+            cards.forEach(card => {
+                const cardDiv = document.createElement('div');
+                cardDiv.classList.add('card');
+                colorCard(cardDiv, card);
+                cardDiv.textContent = `${card.rank}${getSuitSymbol(card.suit)}`;
+                cardContainer.appendChild(cardDiv);
+            });
+
+            sharedExtraDeckDiv.appendChild(cardContainer);
+        }
+
+        function createDeck() {
+            const suits = ['hearts', 'diamonds', 'clubs', 'spades'];
+            const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'A'];
+            const deck = [];
+
+            for (let suit of suits) {
+                for (let rank of ranks) {
+                    if (!((suit === 'spades' || suit === 'clubs') && (rank === 'Q' || rank === 'J'))) {
+                        deck.push({ rank, suit });
+                    }
+                }
+            }
+
+            return deck;
+        }
+
+        function dealCards(deck, numCards) {
+            return deck.splice(0, numCards);
+        }
+
+        function shuffleDeck(deck) {
+            for (let i = deck.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [deck[i], deck[j]] = [deck[j], deck[i]];
+            }
+        }
+
+        function getSuitSymbol(suit) {
+            const suitSymbols = {
+                'hearts': '♥',
+                'diamonds': '♦',
+                'clubs': '♣',
+                'spades': '♠'
+            };
+            return suitSymbols[suit];
+        }
+
+        function displayPlayerDeck(deck, playerNumber) {
+            const deckDiv = document.getElementById(`player${playerNumber}Deck`);
+            deckDiv.innerHTML = `<h2>Player ${playerNumber} Deck</h2>`;
+
+            const cardContainer = document.createElement('div');
+            cardContainer.classList.add('card-container');
+
+            const cardDiv = document.createElement('div');
+            cardDiv.classList.add('card');
+            cardDiv.textContent = deck.length;
+            cardContainer.appendChild(cardDiv);
+
+            deckDiv.appendChild(cardContainer);
+        }
+
+        function displayPlayerArea(hand, playerNumber) {
+            const playersDiv = document.getElementById(`player${playerNumber}`);
+
+            const playerSection = document.createElement('div');
+            playerSection.classList.add('player-section');
+
+            // Player Hand
+            const handDiv = document.createElement('div');
+            handDiv.classList.add('player-hand');
+            handDiv.innerHTML = `<h2>Player ${playerNumber} Hand</h2>`;
+
+            const cardContainer = document.createElement('div');
+            cardContainer.classList.add('card-container');
+
+            hand.forEach(card => {
+                const cardDiv = document.createElement('div');
+                cardDiv.classList.add('card');
+                colorCard(cardDiv, card);
+                cardDiv.textContent = `${card.rank}${getSuitSymbol(card.suit)}`;
+                cardContainer.appendChild(cardDiv);
+            });
+
+            handDiv.appendChild(cardContainer);
+
+            // King Zone
+            const kingZoneDiv = document.createElement('div');
+            kingZoneDiv.classList.add('king-zone');
+            kingZoneDiv.innerHTML = `<h2>Player ${playerNumber} King Zone</h2>`;
+
+            // Add King of Spades to Player 1's King Zone and King of Clubs to Player 2's King Zone
+            if (playerNumber === 1 || playerNumber === 2) {
+                const kingCard = document.createElement('div');
+                kingCard.classList.add('card');
+                kingCard.textContent = `K${getSuitSymbol(playerNumber === 1 ? 'spades' : 'clubs')}`;
+                kingZoneDiv.appendChild(kingCard);
+            }
+
+            playerSection.appendChild(handDiv);
+            playerSection.appendChild(kingZoneDiv);
+
+            // Card Grid
+            const cardGridDiv = document.createElement('div');
+            cardGridDiv.classList.add('card-grid');
+            cardGridDiv.innerHTML = `<h2>Player ${playerNumber} Card Grid</h2>`;
+
+            for (let i = 0; i < 10; i++) {
+                const emptyCard = document.createElement('div');
+                emptyCard.classList.add('card');
+                cardGridDiv.appendChild(emptyCard);
+            }
+
+            playerSection.appendChild(cardGridDiv);
+            playersDiv.appendChild(playerSection);
+        }
+
+        document.getElementById('startGame').addEventListener('click', () => {
+            const deck = createDeck();
+            shuffleDeck(deck);
+
+            const deck1 = deck.slice(0, deck.length / 2);
+            const deck2 = deck.slice(deck.length / 2);
+
+            const player1Hand = dealCards(deck1, 2); // for player 1
+            const player2Hand = dealCards(deck2, 2); // for player 2
+
+            document.getElementById('player1').innerHTML = '';
+            document.getElementById('player2').innerHTML = '';
+            document.getElementById('sharedExtraDeck').innerHTML = '';
+
+            // Display Player 1's Hand, King Zone, and Deck
+            displayPlayerArea(player1Hand, 1);
+            displayPlayerDeck(deck1, 1);
+            // Display Shared Extra Deck
+            displaySharedExtraDeck();
+            // Display Player 2's King Zone, Hand, and Deck
+            displayPlayerArea(player2Hand, 2);
+            displayPlayerDeck(deck2, 2);
+        });
     </script>
 </body>
 </html>
