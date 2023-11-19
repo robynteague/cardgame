@@ -127,7 +127,7 @@
         </div>
         <div class="information-area">
             <div class="game-controls">
-                <h1>Card Game 9:20</h1>
+                <h1>Card Game 3:20</h1>
                 <button id="startGame">Start Game</button>
                 <div id="eventLog"></div>
             </div>
@@ -329,23 +329,25 @@
             document.getElementById('player2').innerHTML = '';
             document.getElementById('sharedExtraDeck').innerHTML = '';
 
-            // Display Player 2's Hand and Grid
-            displayPlayerDeck(deck2, 2);
-            displayPlayerArea(player2Hand, 2, true);
-            logEvent('Player 2 dealt');
-
-            // Display Player 1's Grid
-            displayPlayerDeck(deck1, 1);
-            displayPlayerArea(player1Hand, 1, true);
-            logEvent('Player 1 Grid dealt');
-
             // Display Shared Extra Deck
             displaySharedExtraDeck();
             logEvent('Shared Extra Deck dealt');
 
+            // Display Player 2's King Zone, Hand, and Deck
+            displayPlayerDeck(deck2, 2);
+            displayPlayerArea(player2Hand, 2, false);
+            logEvent('Player 2 card grid dealt');
+
+            // Display Player 1's Hand, King Zone, and Deck
+            displayPlayerDeck(deck1, 1);
+            displayPlayerArea(player1Hand, 1, true);
+            logEvent('Player 1 card grid dealt');
+
+            // Display Player 2's Hand
+            logEvent('Player 2 hand dealt');
+
             // Display Player 1's Hand
-            displayPlayerArea(player1Hand, 1, false);
-            logEvent('Player 1 Hand dealt');
+            logEvent('Player 1 hand dealt');
         });
     </script>
 </body>
