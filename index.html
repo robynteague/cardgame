@@ -71,7 +71,7 @@
 <body>
     <div class="vertical-line"></div>
     <div class="game-controls">
-        <h1>Card Game 246</h1>
+        <h1>Card Game 1:50</h1>
         <button id="startGame">Start Game</button>
     </div>
     <div id="player1"></div>
@@ -150,11 +150,10 @@
         }
 
         function displayPlayerDeck(deck, playerNumber) {
-            const cardGridDiv = document.getElementById(`player${playerNumber}CardGrid`);
             const deckDiv = document.createElement('div');
             deckDiv.classList.add('card');
             deckDiv.textContent = deck.length;
-            cardGridDiv.appendChild(deckDiv);
+            deckDiv.id = `player${playerNumber}Deck`; // Add an id to the deck card
         }
 
         function displayPlayerArea(hand, playerNumber) {
@@ -194,19 +193,30 @@
             cardGridDiv.id = `player${playerNumber}CardGrid`;
             cardGridDiv.classList.add('card-grid');
 
-            for (let i = 0; i < 10; i++) { // Keep it 10
+            // Make 5 cards
+            for (let i = 0; i < 5; i++) {
                 const emptyCard = document.createElement('div');
                 emptyCard.classList.add('card');
                 cardGridDiv.appendChild(emptyCard);
             }
 
-            // Add King of Spades to Player 1's King Zone and King of Clubs to Player 2's King Zone
-            if (playerNumber === 1 || playerNumber === 2) {
-                const kingCard = document.createElement('div');
-                kingCard.classList.add('card');
-                kingCard.textContent = `K${getSuitSymbol(playerNumber === 1 ? 'spades' : 'clubs')}`;
-                cardGridDiv.removeChild(cardGridDiv.children[5]); // Remove the 6th card
-                cardGridDiv.insertBefore(kingCard, cardGridDiv.children[5]); // Insert the King card at the 6th position
+            // Insert King
+            const kingCard = document.createElement('div');
+            kingCard.classList.add('card');
+            kingCard.textContent = `K${getSuitSymbol(playerNumber === 1 ? 'spades' : 'clubs')}`;
+            cardGridDiv.appendChild(kingCard);
+
+            // Make 3 cards
+            for (let i = 0; i < 3; i++) {
+                const emptyCard = document.createElement('div');
+                emptyCard.classList.add('card');
+                cardGridDiv.appendChild(emptyCard);
+            }
+
+            // Insert deck
+            const deckCard = document.getElementById(`player${playerNumber}Deck`);
+            if (deckCard) {
+                cardGridDiv.appendChild(deckCard);
             }
 
             cardGridSection.appendChild(cardGridDiv); // Add the card grid to the new div
