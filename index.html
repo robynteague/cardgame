@@ -6,7 +6,13 @@
     <title>Card Game</title>
     <style>
         body {
+            display: flex;
+            justify-content: space-around;
             position: relative; /* This is needed to position the line correctly */
+        }
+
+        .game-controls {
+            margin-left: 75%; /* This positions the controls 3/4 of the way across the screen */
         }
 
         .vertical-line {
@@ -64,8 +70,10 @@
 </head>
 <body>
     <div class="vertical-line"></div>
-    <h1>Card Game 1:50</h1>
-    <button id="startGame">Start Game</button>
+    <div class="game-controls">
+        <h1>Card Game 1:50</h1>
+        <button id="startGame">Start Game</button>
+    </div>
     <div id="player1"></div>
     <div id="player1Deck"></div>
     <div id="sharedExtraDeck"></div>
