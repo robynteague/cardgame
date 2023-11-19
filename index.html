@@ -177,9 +177,14 @@
             playerSection.appendChild(kingZoneDiv);
 
             // Card Grid
+            const cardGridSection = document.createElement('div'); // Create a new div to wrap the header and the card grid
+
+            const cardGridHeader = document.createElement('h2');
+            cardGridHeader.textContent = `Player ${playerNumber} Card Grid`;
+            cardGridSection.appendChild(cardGridHeader); // Add the header to the new div
+
             const cardGridDiv = document.createElement('div');
             cardGridDiv.classList.add('card-grid');
-            cardGridDiv.innerHTML = `<h2>Player ${playerNumber} Card Grid</h2>`;
 
             for (let i = 0; i < 10; i++) {
                 const emptyCard = document.createElement('div');
@@ -187,7 +192,9 @@
                 cardGridDiv.appendChild(emptyCard);
             }
 
-            playerSection.appendChild(cardGridDiv);
+            cardGridSection.appendChild(cardGridDiv); // Add the card grid to the new div
+
+            playerSection.appendChild(cardGridSection); // Add the new div to the player section
             playersDiv.appendChild(playerSection);
         }
 
