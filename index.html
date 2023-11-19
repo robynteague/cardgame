@@ -111,6 +111,14 @@
         .information-area {
             flex-basis: 25%; /* Takes up 25% of the space */
         }
+
+        .spell-zone {
+            border-color: red;
+        }
+
+        .abyss, .deck {
+            border-color: blue;
+        }
     </style>
 </head>
 <body>
@@ -214,9 +222,10 @@
 
         function displayPlayerDeck(deck, playerNumber) {
             const deckDiv = document.createElement('div');
-            deckDiv.classList.add('card', 'big-font');
+            deckDiv.classList.add('card', 'deck');
             deckDiv.innerHTML = `Deck<br>(${deck.length})`; // Add "Deck" before the number with a line break
             deckDiv.id = `player${playerNumber}Deck`; // Add an id to the deck card
+            deckDiv.style.fontSize = '75%'; // Make the text 75% as big
             deckDiv.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
 
             // Append the deck card to the player's div
@@ -273,7 +282,7 @@
                 // Make 3 cards for the top row
                 for (let i = 0; i < 3; i++) {
                     const emptyCard = document.createElement('div');
-                    emptyCard.classList.add('card');
+                    emptyCard.classList.add('card', 'spell-zone');
                     emptyCard.innerHTML = zoneNames[i + 6]; // Add zone name
                     emptyCard.style.fontSize = '75%'; // Make the text 1.5x as big
                     emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
@@ -289,7 +298,7 @@
                 // Make 5 cards for the bottom row
                 for (let i = 4; i >= 0; i--) {
                     const emptyCard = document.createElement('div');
-                    emptyCard.classList.add('card');
+                    emptyCard.classList.add('card', i === 4 ? 'abyss' : 'spell-zone');
                     emptyCard.innerHTML = zoneNames[i]; // Add zone name
                     emptyCard.style.fontSize = '75%'; // Make the text 1.5x as big
                     emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
@@ -299,7 +308,7 @@
                 // Make 5 cards for the top row
                 for (let i = 0; i < 5; i++) {
                     const emptyCard = document.createElement('div');
-                    emptyCard.classList.add('card');
+                    emptyCard.classList.add('card', i === 0 ? 'abyss' : 'spell-zone');
                     emptyCard.innerHTML = zoneNames[i]; // Add zone name
                     emptyCard.style.fontSize = '75%'; // Make the text 1.5x as big
                     emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
@@ -315,7 +324,7 @@
                 // Make 3 cards for the bottom row
                 for (let i = 0; i < 3; i++) {
                     const emptyCard = document.createElement('div');
-                    emptyCard.classList.add('card');
+                    emptyCard.classList.add('card', 'spell-zone');
                     emptyCard.innerHTML = zoneNames[i + 6]; // Add zone name
                     emptyCard.style.fontSize = '75%'; // Make the text 1.5x as big
                     emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
