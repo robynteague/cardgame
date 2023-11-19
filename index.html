@@ -71,7 +71,7 @@
 <body>
     <div class="vertical-line"></div>
     <div class="game-controls">
-        <h1>Card Game 2:51</h1>
+        <h1>Card Game 1:50</h1>
         <button id="startGame">Start Game</button>
     </div>
     <div id="player1"></div>
@@ -154,6 +154,10 @@
             deckDiv.classList.add('card');
             deckDiv.textContent = deck.length;
             deckDiv.id = `player${playerNumber}Deck`; // Add an id to the deck card
+
+            // Append the deck card to the player's div
+            const playerDiv = document.getElementById(`player${playerNumber}`);
+            playerDiv.appendChild(deckDiv);
         }
 
         function displayPlayerArea(hand, playerNumber) {
@@ -216,6 +220,11 @@
             // Insert deck
             const deckCard = document.getElementById(`player${playerNumber}Deck`);
             if (deckCard) {
+                // Remove the deck card from the player's div
+                const playerDiv = document.getElementById(`player${playerNumber}`);
+                playerDiv.removeChild(deckCard);
+
+                // Add the deck card to the grid
                 cardGridDiv.appendChild(deckCard);
             }
 
