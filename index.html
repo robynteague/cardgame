@@ -66,43 +66,41 @@
             grid-column: 5;
             grid-row: 2;
         }
+
+        #eventLog {
+            width: max-content; /* This will make the width fit the content */
+            max-height: 200px; /* Adjust this value to fit your needs */
+            overflow-y: auto; /* This will add a scrollbar if the content exceeds the max height */
+            border: 1px solid #000; /* This will add a border around the box */
+            padding: 10px; /* This will add some space around the text */
+            margin-bottom: 20px; /* This will add some space below the box */
+        }
     </style>
 </head>
 <body>
     <div class="vertical-line"></div>
     <div class="game-controls">
-        <h1>Card Game 3:04</h1>
+        <h1>Card Game 1:50</h1>
         <button id="startGame">Start Game</button>
-        <div id="eventLog" style="height: 200px; overflow-y: scroll; border: 1px solid #000; margin-top: 10px; padding: 5px;"></div>
     </div>
     <div id="player1"></div>
     <div id="player1Deck"></div>
     <div id="sharedExtraDeck"></div>
     <div id="player2"></div>
     <div id="player2Deck"></div>
+    <div id="eventLog"></div>
 
     <script>
-        function logEvent(message) {
-            const eventLog = document.getElementById('eventLog');
-            const newEvent = document.createElement('p');
-            newEvent.textContent = message;
-            eventLog.appendChild(newEvent);
-        }
+        let eventLog = [];
 
-        let state = {
-            deck: [],
-            player1Hand: [],
-            player2Hand: [],
-            // ... other game state ...
-        };
-
-        const stateWithLogging = new Proxy(state, {
-            set(target, prop, value) {
-                logEvent(`Setting ${prop} to ${JSON.stringify(value)}`);
-                target[prop] = value;
-                return true;
+        function logEvent(event) {
+            eventLog.push(event);
+            while (eventLog.length > 10) {
+                eventLog.shift(); // This will remove the oldest event if there are more than 10
             }
-        });
+            const eventLogDiv = document.getElementById('eventLog');
+            eventLogDiv.innerHTML = `<h2>Event Log</h2>${eventLog.join('<br>')}`;
+        }
 
         function colorCard(cardDiv, card) {
           if (card.suit === 'hearts' || card.suit === 'diamonds') {
@@ -151,20 +149,15 @@
             return deck;
         }
 
-        function dealCards(player, numCards) {
-            const deck = stateWithLogging.deck;
-            const hand = deck.splice(0, numCards);
-            stateWithLogging[player + 'Hand'] = hand;
-            stateWithLogging.deck = deck;
+        function dealCards(deck, numCards) {
+            return deck.splice(0, numCards);
         }
 
-        function shuffleDeck() {
-            const deck = stateWithLogging.deck;
+        function shuffleDeck(deck) {
             for (let i = deck.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [deck[i], deck[j]] = [deck[j], deck[i]];
             }
-            stateWithLogging.deck = deck;
         }
 
         function getSuitSymbol(suit) {
@@ -264,24 +257,36 @@
 
         document.getElementById('startGame').addEventListener('click', () => {
             const deck = createDeck();
-            stateWithLogging.deck = deck;
-            shuffleDeck();
+            logEvent('Deck created');
+            
+            shuffleDeck(deck);
+            logEvent('Deck shuffled');
 
-            const player1Hand = dealCards('player1', 2); // for player 1
-            const player2Hand = dealCards('player2', 2); // for player 2
+            const deck1 = deck.slice(0, deck.length / 2);
+            const deck2 = deck.slice(deck.length / 2);
+            logEvent('Deck split');
+
+            const player1Hand = dealCards(deck1, 2); // for player 1
+            const player2Hand = dealCards(deck2, 2); // for player 2
+            logEvent('Hands dealt');
 
             document.getElementById('player1').innerHTML = '';
             document.getElementById('player2').innerHTML = '';
             document.getElementById('sharedExtraDeck').innerHTML = '';
 
             // Display Player 1's Hand, King Zone, and Deck
-            displayPlayerDeck(stateWithLogging.deck, 1);
+            displayPlayerDeck(deck1, 1);
             displayPlayerArea(player1Hand, 1);
+            logEvent('Player 1 dealt');
+
             // Display Shared Extra Deck
             displaySharedExtraDeck();
+            logEvent('Shared Extra Deck dealt');
+
             // Display Player 2's King Zone, Hand, and Deck
-            displayPlayerDeck(stateWithLogging.deck, 2);
+            displayPlayerDeck(deck2, 2);
             displayPlayerArea(player2Hand, 2);
+            logEvent('Player 2 dealt');
         });
     </script>
 </body>
