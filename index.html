@@ -329,19 +329,19 @@
             document.getElementById('player2').innerHTML = '';
             document.getElementById('sharedExtraDeck').innerHTML = '';
 
-            // Display Player 1's Hand, King Zone, and Deck
-            displayPlayerDeck(deck1, 1);
-            displayPlayerArea(player1Hand, 1, true);
-            logEvent('Player 1 dealt');
+            // Display Player 2's Hand and Grid
+            displayPlayerDeck(deck2, 2);
+            displayPlayerArea(player2Hand, 2, true);
+            logEvent('Player 2 dealt');
 
             // Display Shared Extra Deck
             displaySharedExtraDeck();
             logEvent('Shared Extra Deck dealt');
 
-            // Display Player 2's King Zone, Hand, and Deck
-            displayPlayerDeck(deck2, 2);
-            displayPlayerArea(player2Hand, 2, false);
-            logEvent('Player 2 dealt');
+            // Display Player 1's Grid and Hand
+            displayPlayerDeck(deck1, 1);
+            displayPlayerArea(player1Hand, 1, false);
+            logEvent('Player 1 dealt');
         });
     </script>
 </body>
