@@ -71,8 +71,9 @@
 <body>
     <div class="vertical-line"></div>
     <div class="game-controls">
-        <h1>Card Game 1:50</h1>
+        <h1>Card Game 3:04</h1>
         <button id="startGame">Start Game</button>
+        <div id="eventLog" style="height: 200px; overflow-y: scroll; border: 1px solid #000; margin-top: 10px; padding: 5px;"></div>
     </div>
     <div id="player1"></div>
     <div id="player1Deck"></div>
@@ -81,6 +82,28 @@
     <div id="player2Deck"></div>
 
     <script>
+        function logEvent(message) {
+            const eventLog = document.getElementById('eventLog');
+            const newEvent = document.createElement('p');
+            newEvent.textContent = message;
+            eventLog.appendChild(newEvent);
+        }
+
+        let state = {
+            deck: [],
+            player1Hand: [],
+            player2Hand: [],
+            // ... other game state ...
+        };
+
+        const stateWithLogging = new Proxy(state, {
+            set(target, prop, value) {
+                logEvent(`Setting ${prop} to ${JSON.stringify(value)}`);
+                target[prop] = value;
+                return true;
+            }
+        });
+
         function colorCard(cardDiv, card) {
           if (card.suit === 'hearts' || card.suit === 'diamonds') {
               cardDiv.classList.add('red');
@@ -128,15 +151,20 @@
             return deck;
         }
 
-        function dealCards(deck, numCards) {
-            return deck.splice(0, numCards);
+        function dealCards(player, numCards) {
+            const deck = stateWithLogging.deck;
+            const hand = deck.splice(0, numCards);
+            stateWithLogging[player + 'Hand'] = hand;
+            stateWithLogging.deck = deck;
         }
 
-        function shuffleDeck(deck) {
+        function shuffleDeck() {
+            const deck = stateWithLogging.deck;
             for (let i = deck.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [deck[i], deck[j]] = [deck[j], deck[i]];
             }
+            stateWithLogging.deck = deck;
         }
 
         function getSuitSymbol(suit) {
@@ -236,25 +264,23 @@
 
         document.getElementById('startGame').addEventListener('click', () => {
             const deck = createDeck();
-            shuffleDeck(deck);
+            stateWithLogging.deck = deck;
+            shuffleDeck();
 
-            const deck1 = deck.slice(0, deck.length / 2);
-            const deck2 = deck.slice(deck.length / 2);
-
-            const player1Hand = dealCards(deck1, 2); // for player 1
-            const player2Hand = dealCards(deck2, 2); // for player 2
+            const player1Hand = dealCards('player1', 2); // for player 1
+            const player2Hand = dealCards('player2', 2); // for player 2
 
             document.getElementById('player1').innerHTML = '';
             document.getElementById('player2').innerHTML = '';
             document.getElementById('sharedExtraDeck').innerHTML = '';
 
             // Display Player 1's Hand, King Zone, and Deck
-            displayPlayerDeck(deck1, 1);
+            displayPlayerDeck(stateWithLogging.deck, 1);
             displayPlayerArea(player1Hand, 1);
             // Display Shared Extra Deck
             displaySharedExtraDeck();
             // Display Player 2's King Zone, Hand, and Deck
-            displayPlayerDeck(deck2, 2);
+            displayPlayerDeck(stateWithLogging.deck, 2);
             displayPlayerArea(player2Hand, 2);
         });
     </script>
