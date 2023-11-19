@@ -57,7 +57,7 @@
         .card-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            grid-template-rows: repeat(3, 1fr); /* Adjusted rows */
+            grid-template-rows: repeat(2, 1fr); /* Adjusted rows */
             gap: 2px;
             width: 245px; /* Adjusted width */
         }
@@ -71,7 +71,7 @@
 <body>
     <div class="vertical-line"></div>
     <div class="game-controls">
-        <h1>Card Game 2:26</h1>
+        <h1>Card Game 1:50</h1>
         <button id="startGame">Start Game</button>
     </div>
     <div id="player1"></div>
@@ -200,6 +200,12 @@
                 cardGridDiv.appendChild(emptyCard);
             }
 
+            // Add deck as the last card
+            const deckDiv = document.createElement('div');
+            deckDiv.classList.add('card');
+            deckDiv.textContent = deck.length;
+            cardGridDiv.appendChild(deckDiv);
+
             // Add King of Spades to Player 1's King Zone and King of Clubs to Player 2's King Zone
             if (playerNumber === 1 || playerNumber === 2) {
                 const kingCard = document.createElement('div');
@@ -213,12 +219,6 @@
                 emptyCard.classList.add('card');
                 cardGridDiv.appendChild(emptyCard);
             }
-
-            // Add deck as the last card
-            const deckDiv = document.createElement('div');
-            deckDiv.classList.add('card');
-            deckDiv.textContent = deck.length;
-            cardGridDiv.appendChild(deckDiv);
 
             cardGridSection.appendChild(cardGridDiv); // Add the card grid to the new div
 
