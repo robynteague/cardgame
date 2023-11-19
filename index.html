@@ -333,15 +333,15 @@
             displaySharedExtraDeck();
             logEvent('Shared Extra Deck dealt');
 
-            // Display Player 2's Hand, King Zone, and Deck
-            displayPlayerDeck(deck2, 2);
-            displayPlayerArea(player2Hand, 2, true);
-            logEvent('Player 2 card grid dealt');
-
             // Display Player 1's Hand, King Zone, and Deck
             displayPlayerDeck(deck1, 1);
             displayPlayerArea(player1Hand, 1, false);
             logEvent('Player 1 card grid dealt');
+
+            // Display Player 2's Hand, King Zone, and Deck
+            displayPlayerDeck(deck2, 2);
+            displayPlayerArea(player2Hand, 2, true);
+            logEvent('Player 2 card grid dealt');
 
             // Display Player 1's Hand
             logEvent('Player 1 hand dealt');
