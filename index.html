@@ -339,15 +339,14 @@
             logEvent('Player 2 hand dealt');
 
             // Display Player 2's Card Grid
-            displayPlayerArea(player2Hand, 2, false);
             logEvent('Player 2 card grid dealt');
 
             // Display Player 1's Card Grid
+            displayPlayerDeck(deck1, 1);
             displayPlayerArea(player1Hand, 1, false);
             logEvent('Player 1 card grid dealt');
 
             // Display Player 1's Hand
-            displayPlayerArea(player1Hand, 1, true);
             logEvent('Player 1 hand dealt');
         });
     </script>
