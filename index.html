@@ -5,6 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Card Game</title>
     <style>
+        body {
+            position: relative; /* This is needed to position the line correctly */
+        }
+
+        .vertical-line {
+            position: absolute;
+            top: 0;
+            left: 75%; /* This positions the line 3/4 of the way across the screen */
+            width: 1px; /* This is the width of the line */
+            height: 100vh; /* This makes the line cover the full height of the screen */
+            background-color: #000; /* This is the color of the line */
+        }
+
         .card {
             display: flex;
             justify-content: center;
@@ -50,7 +63,8 @@
     </style>
 </head>
 <body>
-    <h1>Card Game 1:47</h1>
+    <div class="vertical-line"></div>
+    <h1>Card Game 1:50</h1>
     <button id="startGame">Start Game</button>
     <div id="player1"></div>
     <div id="player1Deck"></div>
