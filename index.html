@@ -32,16 +32,17 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: start;
-            gap: 5px;
+            gap: 2px;
         }
     </style>
 </head>
 <body>
-    <h1>Card Game 325</h1>
+    <h1>Card Game 335</h1>
     <button id="startGame">Start Game</button>
     <div id="player1"></div>
     <div id="sharedExtraDeck"></div>
     <div id="player2"></div>
+    <div id="deck"></div>
 
     <script>
         function colorCard(cardDiv, card) {
@@ -73,6 +74,21 @@
             });
 
             sharedExtraDeckDiv.appendChild(cardContainer);
+        }
+
+        function displayDeck(deck) {
+            const deckDiv = document.getElementById('deck');
+            deckDiv.innerHTML = '<h2>Deck</h2>';
+
+            const cardContainer = document.createElement('div');
+            cardContainer.classList.add('card-container');
+
+            const cardDiv = document.createElement('div');
+            cardDiv.classList.add('card');
+            cardDiv.textContent = deck.length;
+            cardContainer.appendChild(cardDiv);
+
+            deckDiv.appendChild(cardContainer);
         }
                 
         function createDeck() {
@@ -176,6 +192,8 @@
             displaySharedExtraDeck();
             // Display Player 2's King Zone and Hand
             displayHands(playerHands[1], 2);
+            // Display Deck
+            displayDeck(deck);
         });
     </script>
 </body>
