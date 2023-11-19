@@ -117,7 +117,7 @@
         }
 
         .abyss {
-            border-color: blue;
+            background-color: blue;
         }
 
     </style>
@@ -287,6 +287,9 @@
                     emptyCard.innerHTML = zoneNames[i + 6]; // Add zone name
                     emptyCard.style.fontSize = '75%'; // Make the text 1.5x as big
                     emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
+                    if (zoneNames[i + 6] === 'Abyss') {
+                        emptyCard.classList.add('abyss');
+                    }
                     cardGridDiv.appendChild(emptyCard);
                 }
 
@@ -299,20 +302,26 @@
                 // Make 5 cards for the bottom row
                 for (let i = 4; i >= 0; i--) {
                     const emptyCard = document.createElement('div');
-                    emptyCard.classList.add('card', i === 0 ? 'abyss' : '');
+                    emptyCard.classList.add('card');
                     emptyCard.innerHTML = zoneNames[i]; // Add zone name
                     emptyCard.style.fontSize = '75%'; // Make the text 1.5x as big
                     emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
+                    if (zoneNames[i] === 'Abyss') {
+                        emptyCard.classList.add('abyss');
+                    }
                     cardGridDiv.appendChild(emptyCard);
                 }
             } else { // If Player 1
                 // Make 5 cards for the top row
                 for (let i = 0; i < 5; i++) {
                     const emptyCard = document.createElement('div');
-                    emptyCard.classList.add('card', i === 4 ? 'abyss' : '');
+                    emptyCard.classList.add('card');
                     emptyCard.innerHTML = zoneNames[i]; // Add zone name
                     emptyCard.style.fontSize = '75%'; // Make the text 1.5x as big
                     emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
+                    if (zoneNames[i] === 'Abyss') {
+                        emptyCard.classList.add('abyss');
+                    }
                     cardGridDiv.appendChild(emptyCard);
                 }
 
@@ -329,6 +338,9 @@
                     emptyCard.innerHTML = zoneNames[i + 6]; // Add zone name
                     emptyCard.style.fontSize = '75%'; // Make the text 1.5x as big
                     emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
+                    if (zoneNames[i + 6] === 'Abyss') {
+                        emptyCard.classList.add('abyss');
+                    }
                     cardGridDiv.appendChild(emptyCard);
                 }
 
