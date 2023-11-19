@@ -261,7 +261,12 @@
             cardGridDiv.classList.add('card-grid');
 
             // Define zone names
-            const zoneNames = ['Prison', 'Spell<br>Zone', 'Spell<br>Zone', 'Spell<br>Zone', 'Abyss', 'King', 'Monster<br>Zone', 'Monster<br>Zone', 'Monster<br>Zone', 'Deck'];
+            let zoneNames = ['Prison', 'Spell<br>Zone', 'Spell<br>Zone', 'Spell<br>Zone', 'Abyss', 'King', 'Monster<br>Zone', 'Monster<br>Zone', 'Monster<br>Zone', 'Deck'];
+
+            // Reverse the order for player 1
+            if (playerNumber === 1) {
+                zoneNames = zoneNames.reverse();
+            }
 
             // Make 5 cards
             for (let i = 0; i < 5; i++) {
@@ -280,10 +285,10 @@
             cardGridDiv.appendChild(kingCard);
 
             // Make 3 cards
-            for (let i = 0; i < 3; i++) {
+            for (let i = 5; i < 8; i++) {
                 const emptyCard = document.createElement('div');
                 emptyCard.classList.add('card');
-                emptyCard.innerHTML = zoneNames[i + 6]; // Add zone name
+                emptyCard.innerHTML = zoneNames[i]; // Add zone name
                 emptyCard.style.fontSize = '75%'; // Make the text 1.5x as big
                 emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
                 cardGridDiv.appendChild(emptyCard);
