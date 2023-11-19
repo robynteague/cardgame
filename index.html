@@ -59,6 +59,13 @@
             gap: 2px;
         }
 
+        .card-container.card-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 2px;
+        }
+
         .card-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -129,7 +136,7 @@
             ];
 
             const cardContainer = document.createElement('div');
-            cardContainer.classList.add('card-container');
+            cardContainer.classList.add('card-container', 'card-grid'); // Add 'card-grid' class
         
             cards.forEach(card => {
                 const cardDiv = document.createElement('div');
