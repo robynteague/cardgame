@@ -38,19 +38,19 @@
         .card-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            grid-template-rows: repeat(2, 1fr);
+            grid-template-rows: repeat(3, 1fr); /* Adjusted rows */
             gap: 2px;
             width: 245px; /* Adjusted width */
         }
 
-        .card-grid > :nth-child(10) {
+        .card-grid > :nth-child(10) { /* Adjusted child */
             grid-column: 5;
             grid-row: 2;
         }
     </style>
 </head>
 <body>
-    <h1>Card Game 325zz</h1>
+    <h1>Card Game 1:47</h1>
     <button id="startGame">Start Game</button>
     <div id="player1"></div>
     <div id="player1Deck"></div>
@@ -186,7 +186,7 @@
             cardGridDiv.id = `player${playerNumber}CardGrid`;
             cardGridDiv.classList.add('card-grid');
 
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < 9; i++) { // Changed from 10 to 9
                 const emptyCard = document.createElement('div');
                 emptyCard.classList.add('card');
                 cardGridDiv.appendChild(emptyCard);
