@@ -334,14 +334,18 @@
             displayPlayerArea(player2Hand, 2, true);
             logEvent('Player 2 dealt');
 
+            // Display Player 1's Grid
+            displayPlayerDeck(deck1, 1);
+            displayPlayerArea(player1Hand, 1, true);
+            logEvent('Player 1 Grid dealt');
+
             // Display Shared Extra Deck
             displaySharedExtraDeck();
             logEvent('Shared Extra Deck dealt');
 
-            // Display Player 1's Grid and Hand
-            displayPlayerDeck(deck1, 1);
+            // Display Player 1's Hand
             displayPlayerArea(player1Hand, 1, false);
-            logEvent('Player 1 dealt');
+            logEvent('Player 1 Hand dealt');
         });
     </script>
 </body>
