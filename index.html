@@ -6,12 +6,11 @@
     <title>Card Game</title>
     <style>
         .card {
-            display: flex;
-            justify-content: center;
-            align-items: center;
             border: 1px solid #000;
             padding: 10px;
             margin: 5px;
+            justify-content: center;
+            align-items: center;
             width: 35px; 
             height: 50px; 
             box-sizing: border-box; 
@@ -45,7 +44,7 @@
     </style>
 </head>
 <body>
-    <h1>Card Game 325zz</h1>
+    <h1>Card Game 325l</h1>
     <button id="startGame">Start Game</button>
     <div id="player1"></div>
     <div id="player1Deck"></div>
@@ -124,7 +123,11 @@
 
         function displayPlayerDeck(deck, playerNumber) {
             const deckDiv = document.getElementById(`player${playerNumber}Deck`);
-            deckDiv.innerHTML = `<h2>Player ${playerNumber} Deck</h2>`;
+            if (playerNumber === 2) { // Add this line
+                deckDiv.innerHTML = ''; // Add this line
+            } else { // Add this line
+                deckDiv.innerHTML = `<h2>Player ${playerNumber} Deck</h2>`;
+            } // Add this line
 
             const cardContainer = document.createElement('div');
             cardContainer.classList.add('card-container');
@@ -187,11 +190,18 @@
             const cardGridDiv = document.createElement('div');
             cardGridDiv.classList.add('card-grid');
 
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < 9; i++) { // Change this line
                 const emptyCard = document.createElement('div');
                 emptyCard.classList.add('card');
                 cardGridDiv.appendChild(emptyCard);
             }
+
+            // Add Player 2's deck as the 10th card
+            if (playerNumber === 2) { // Add this line
+                const deckDiv = document.getElementById(`player2Deck`);
+                const deckCard = deckDiv.querySelector('.card');
+                cardGridDiv.appendChild(deckCard);
+            } // Add this line
 
             cardGridSection.appendChild(cardGridDiv); // Add the card grid to the new div
 
