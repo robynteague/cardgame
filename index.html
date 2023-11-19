@@ -217,10 +217,16 @@
             cardGridDiv.id = `player${playerNumber}CardGrid`;
             cardGridDiv.classList.add('card-grid');
 
+            // Define zone names
+            const zoneNames = ['Prison', 'Spell Zone', 'Spell Zone', 'Spell Zone', 'Abyss', 'King', 'Monster Zone', 'Monster Zone', 'Monster Zone', 'Deck'];
+
             // Make 5 cards
             for (let i = 0; i < 5; i++) {
                 const emptyCard = document.createElement('div');
                 emptyCard.classList.add('card');
+                emptyCard.textContent = zoneNames[i]; // Add zone name
+                emptyCard.style.fontSize = 'small'; // Make the text small
+                emptyCard.style.fontFamily = 'sans-serif'; // Change the font
                 cardGridDiv.appendChild(emptyCard);
             }
 
@@ -234,6 +240,9 @@
             for (let i = 0; i < 3; i++) {
                 const emptyCard = document.createElement('div');
                 emptyCard.classList.add('card');
+                emptyCard.textContent = zoneNames[i + 6]; // Add zone name
+                emptyCard.style.fontSize = 'small'; // Make the text small
+                emptyCard.style.fontFamily = 'sans-serif'; // Change the font
                 cardGridDiv.appendChild(emptyCard);
             }
 
