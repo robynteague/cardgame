@@ -94,20 +94,34 @@
         .big-font {
             font-size: 200%;
         }
+
+        .play-area {
+            display: flex;
+            justify-content: space-between;
+            height: 100vh; /* Full height of the viewport */
+            padding: 0 calc(25% + 1px); /* Padding to the right of the vertical line */
+        }
+
+        #sharedExtraDeck {
+            align-self: center; /* Center vertically in the flex container */
+            margin-left: auto; /* Push to the right side of the flex container */
+        }
     </style>
 </head>
 <body>
     <div class="vertical-line"></div>
     <div class="game-controls">
-        <h1>Card Game 3:20</h1>
+        <h1>Card Game 7:50</h1>
         <button id="startGame">Start Game</button>
         <div id="eventLog"></div>
     </div>
-    <div id="player1"></div>
-    <div id="player1Deck"></div>
-    <div id="sharedExtraDeck"></div>
-    <div id="player2"></div>
-    <div id="player2Deck"></div>
+    <div class="play-area">
+        <div id="player1"></div>
+        <div id="player1Deck"></div>
+        <div id="sharedExtraDeck"></div>
+        <div id="player2"></div>
+        <div id="player2Deck"></div>
+    </div>
 
     <script>
         let eventLog = [];
