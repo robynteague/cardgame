@@ -225,7 +225,7 @@
             playerDiv.appendChild(deckDiv);
         }
 
-        function displayPlayerArea(hand, playerNumber) {
+        function displayPlayerArea(hand, playerNumber, isHandFirst) {
             const playersDiv = document.getElementById(`player${playerNumber}`);
 
             const playerSection = document.createElement('div');
@@ -298,12 +298,12 @@
 
             cardGridSection.appendChild(cardGridDiv); // Add the card grid to the new div
 
-            if (playerNumber === 1) {
-                playerSection.appendChild(cardGridSection);
+            if (isHandFirst) {
                 playerSection.appendChild(handDiv);
+                playerSection.appendChild(cardGridSection);
             } else {
-                playerSection.appendChild(handDiv);
                 playerSection.appendChild(cardGridSection);
+                playerSection.appendChild(handDiv);
             }
 
             playersDiv.appendChild(playerSection);
@@ -331,7 +331,7 @@
 
             // Display Player 1's Hand, King Zone, and Deck
             displayPlayerDeck(deck1, 1);
-            displayPlayerArea(player1Hand, 1);
+            displayPlayerArea(player1Hand, 1, true);
             logEvent('Player 1 dealt');
 
             // Display Shared Extra Deck
@@ -340,7 +340,7 @@
 
             // Display Player 2's King Zone, Hand, and Deck
             displayPlayerDeck(deck2, 2);
-            displayPlayerArea(player2Hand, 2);
+            displayPlayerArea(player2Hand, 2, false);
             logEvent('Player 2 dealt');
         });
     </script>
