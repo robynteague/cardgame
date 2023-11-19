@@ -216,17 +216,17 @@
             const deckDiv = document.createElement('div');
             deckDiv.classList.add('card', 'big-font');
             deckDiv.textContent = deck.length;
-            deckDiv.id = `player${playerNumber}Deck`; // Add an id to the deck card
+            deckDiv.id = `player${3 - playerNumber}Deck`; // Add an id to the deck card
             deckDiv.style.fontSize = '50%'; // Make the text half as big
             deckDiv.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
 
             // Append the deck card to the player's div
-            const playerDiv = document.getElementById(`player${playerNumber}`);
+            const playerDiv = document.getElementById(`player${3 - playerNumber}`);
             playerDiv.appendChild(deckDiv);
         }
 
         function displayPlayerArea(hand, playerNumber, isHandFirst) {
-            const playersDiv = document.getElementById(`player${playerNumber}`);
+            const playersDiv = document.getElementById(`player${3 - playerNumber}`);
 
             const playerSection = document.createElement('div');
             playerSection.classList.add('player-section');
@@ -234,7 +234,7 @@
             // Player Hand
             const handDiv = document.createElement('div');
             handDiv.classList.add('player-hand');
-            handDiv.innerHTML = `<h2>Player ${playerNumber} Hand</h2>`;
+            handDiv.innerHTML = `<h2>Player ${3 - playerNumber} Hand</h2>`;
 
             const cardContainer = document.createElement('div');
             cardContainer.classList.add('card-container');
@@ -253,11 +253,11 @@
             const cardGridSection = document.createElement('div'); // Create a new div to wrap the header and the card grid
 
             const cardGridHeader = document.createElement('h2');
-            cardGridHeader.textContent = `Player ${playerNumber} Card Grid`;
+            cardGridHeader.textContent = `Player ${3 - playerNumber} Card Grid`;
             cardGridSection.appendChild(cardGridHeader); // Add the header to the new div
 
             const cardGridDiv = document.createElement('div');
-            cardGridDiv.id = `player${playerNumber}CardGrid`;
+            cardGridDiv.id = `player${3 - playerNumber}CardGrid`;
             cardGridDiv.classList.add('card-grid');
 
             // Define zone names
@@ -276,7 +276,7 @@
             // Insert King
             const kingCard = document.createElement('div');
             kingCard.classList.add('card', 'big-font');
-            kingCard.textContent = `K${getSuitSymbol(playerNumber === 1 ? 'spades' : 'clubs')}`;
+            kingCard.textContent = `K${getSuitSymbol(playerNumber === 2 ? 'spades' : 'clubs')}`;
             cardGridDiv.appendChild(kingCard);
 
             // Make 3 cards for the bottom row
@@ -290,7 +290,7 @@
             }
 
             // Insert deck
-            const deckCard = document.getElementById(`player${playerNumber}Deck`);
+            const deckCard = document.getElementById(`player${3 - playerNumber}Deck`);
             if (deckCard) {
                 // Add the deck card to the grid
                 cardGridDiv.appendChild(deckCard);
@@ -329,19 +329,19 @@
             document.getElementById('player2').innerHTML = '';
             document.getElementById('sharedExtraDeck').innerHTML = '';
 
-            // Display Player 1's Hand, King Zone, and Deck
-            displayPlayerDeck(deck1, 1);
-            displayPlayerArea(player1Hand, 1, true);
-            logEvent('Player 1 dealt');
+            // Display Player 2's Hand, King Zone, and Deck
+            displayPlayerDeck(deck1, 2);
+            displayPlayerArea(player1Hand, 2, true);
+            logEvent('Player 2 dealt');
 
             // Display Shared Extra Deck
             displaySharedExtraDeck();
             logEvent('Shared Extra Deck dealt');
 
-            // Display Player 2's King Zone, Hand, and Deck
-            displayPlayerDeck(deck2, 2);
-            displayPlayerArea(player2Hand, 2, false);
-            logEvent('Player 2 dealt');
+            // Display Player 1's King Zone, Hand, and Deck
+            displayPlayerDeck(deck2, 1);
+            displayPlayerArea(player2Hand, 1, false);
+            logEvent('Player 1 dealt');
         });
     </script>
 </body>
