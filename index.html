@@ -69,11 +69,12 @@
 
         #eventLog {
             width: max-content; /* This will make the width fit the content */
-            max-height: 200px; /* Adjust this value to fit your needs */
-            overflow-y: auto; /* This will add a scrollbar if the content exceeds the max height */
+            max-height: 12em; /* 10 lines * line height + some extra space for padding */
+            overflow: auto; /* This will add a scrollbar if the content exceeds the max height */
             border: 1px solid #000; /* This will add a border around the box */
             padding: 10px; /* This will add some space around the text */
             margin-bottom: 20px; /* This will add some space below the box */
+            line-height: 1.2em; /* Adjust this to match your actual line height */
         }
     </style>
 </head>
@@ -95,11 +96,9 @@
 
         function logEvent(event) {
             eventLog.push(event);
-            while (eventLog.length > 10) {
-                eventLog.shift(); // This will remove the oldest event if there are more than 10
-            }
             const eventLogDiv = document.getElementById('eventLog');
             eventLogDiv.innerHTML = `<h2>Event Log</h2>${eventLog.join('<br>')}`;
+            eventLogDiv.scrollTop = eventLogDiv.scrollHeight; // Scroll to the bottom
         }
 
         function colorCard(cardDiv, card) {
@@ -256,6 +255,7 @@
         }
 
         document.getElementById('startGame').addEventListener('click', () => {
+            logEvent('NEW GAME'); // New log event
             const deck = createDeck();
             logEvent('Deck created');
             
