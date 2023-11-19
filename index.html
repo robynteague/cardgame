@@ -31,10 +31,9 @@
             border: 1px solid #000;
             padding: 10px;
             margin: 5px;
-            width: 105px; /* 35px * 3 */
-            height: 150px; /* 50px * 3 */
+            width: 70px; 
+            height: 100px; 
             box-sizing: border-box; 
-            font-size: 300%; /* Make the symbols and numbers 3x as big */
         }
         .player-hand, .king-zone {
             margin-bottom: 20px;
@@ -58,13 +57,9 @@
         .card-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            grid-template-rows: repeat(3, 1fr); /* Adjusted rows */
+            grid-template-rows: repeat(2, 1fr); /* Adjusted rows */
             gap: 2px;
-            width: 735px; /* 245px * 3 */
-        }
-
-        .card-grid > div {
-            font-size: 200%; /* Make the words inside the zones 2x as big */
+            width: 490px; /* Adjusted width */
         }
 
         .card-grid > :nth-child(10) { /* Adjusted child */
@@ -80,6 +75,10 @@
             padding: 10px; /* This will add some space around the text */
             margin-bottom: 20px; /* This will add some space below the box */
             line-height: 1.2em; /* Adjust this to match your actual line height */
+        }
+
+        .big-font {
+            font-size: 200%;
         }
     </style>
 </head>
@@ -128,7 +127,7 @@
         
             cards.forEach(card => {
                 const cardDiv = document.createElement('div');
-                cardDiv.classList.add('card');
+                cardDiv.classList.add('card', 'big-font');
                 colorCard(cardDiv, card);
                 cardDiv.textContent = `${card.rank}${getSuitSymbol(card.suit)}`;
                 cardContainer.appendChild(cardDiv);
@@ -176,7 +175,7 @@
 
         function displayPlayerDeck(deck, playerNumber) {
             const deckDiv = document.createElement('div');
-            deckDiv.classList.add('card');
+            deckDiv.classList.add('card', 'big-font');
             deckDiv.textContent = deck.length;
             deckDiv.id = `player${playerNumber}Deck`; // Add an id to the deck card
 
@@ -201,7 +200,7 @@
 
             hand.forEach(card => {
                 const cardDiv = document.createElement('div');
-                cardDiv.classList.add('card');
+                cardDiv.classList.add('card', 'big-font');
                 colorCard(cardDiv, card);
                 cardDiv.textContent = `${card.rank}${getSuitSymbol(card.suit)}`;
                 cardContainer.appendChild(cardDiv);
@@ -230,14 +229,14 @@
                 const emptyCard = document.createElement('div');
                 emptyCard.classList.add('card');
                 emptyCard.textContent = zoneNames[i]; // Add zone name
-                emptyCard.style.fontSize = 'small'; // Make the text small
+                emptyCard.style.fontSize = '200%'; // Make the text 2x as big
                 emptyCard.style.fontFamily = 'sans-serif'; // Change the font
                 cardGridDiv.appendChild(emptyCard);
             }
 
             // Insert King
             const kingCard = document.createElement('div');
-            kingCard.classList.add('card');
+            kingCard.classList.add('card', 'big-font');
             kingCard.textContent = `K${getSuitSymbol(playerNumber === 1 ? 'spades' : 'clubs')}`;
             cardGridDiv.appendChild(kingCard);
 
@@ -246,7 +245,7 @@
                 const emptyCard = document.createElement('div');
                 emptyCard.classList.add('card');
                 emptyCard.textContent = zoneNames[i + 6]; // Add zone name
-                emptyCard.style.fontSize = 'small'; // Make the text small
+                emptyCard.style.fontSize = '200%'; // Make the text 2x as big
                 emptyCard.style.fontFamily = 'sans-serif'; // Change the font
                 cardGridDiv.appendChild(emptyCard);
             }
