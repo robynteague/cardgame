@@ -261,7 +261,7 @@
             cardGridDiv.classList.add('card-grid');
 
             // Define zone names
-            const zoneNames = ['Prison', 'Spell<br>Zone', 'Spell<br>Zone', 'Spell<br>Zone', 'Abyss', 'Monster<br>Zone', 'Monster<br>Zone', 'Monster<br>Zone', 'King', 'Deck'];
+            const zoneNames = ['Prison', 'Spell<br>Zone', 'Spell<br>Zone', 'Spell<br>Zone', 'Abyss', 'King', 'Monster<br>Zone', 'Monster<br>Zone', 'Monster<br>Zone', 'Deck'];
 
             // Make 5 cards for the top row
             for (let i = 0; i < 5; i++) {
@@ -273,21 +273,21 @@
                 cardGridDiv.appendChild(emptyCard);
             }
 
-            // Make 3 cards for the bottom row
-            for (let i = 0; i < 3; i++) {
-                const emptyCard = document.createElement('div');
-                emptyCard.classList.add('card');
-                emptyCard.innerHTML = zoneNames[i + 5]; // Add zone name
-                emptyCard.style.fontSize = '75%'; // Make the text 1.5x as big
-                emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
-                cardGridDiv.appendChild(emptyCard);
-            }
-
             // Insert King
             const kingCard = document.createElement('div');
             kingCard.classList.add('card', 'big-font');
             kingCard.textContent = `K${getSuitSymbol(playerNumber === 1 ? 'spades' : 'clubs')}`;
             cardGridDiv.appendChild(kingCard);
+
+            // Make 3 cards for the bottom row
+            for (let i = 0; i < 3; i++) {
+                const emptyCard = document.createElement('div');
+                emptyCard.classList.add('card');
+                emptyCard.innerHTML = zoneNames[i + 6]; // Add zone name
+                emptyCard.style.fontSize = '75%'; // Make the text 1.5x as big
+                emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
+                cardGridDiv.appendChild(emptyCard);
+            }
 
             // Insert deck
             const deckCard = document.getElementById(`player${playerNumber}Deck`);
