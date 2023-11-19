@@ -194,7 +194,7 @@
             cardGridDiv.id = `player${playerNumber}CardGrid`;
             cardGridDiv.classList.add('card-grid');
 
-            for (let i = 0; i < 9; i++) { // Changed from 10 to 9
+            for (let i = 0; i < 10; i++) { // Keep it 10
                 const emptyCard = document.createElement('div');
                 emptyCard.classList.add('card');
                 cardGridDiv.appendChild(emptyCard);
@@ -205,6 +205,7 @@
                 const kingCard = document.createElement('div');
                 kingCard.classList.add('card');
                 kingCard.textContent = `K${getSuitSymbol(playerNumber === 1 ? 'spades' : 'clubs')}`;
+                cardGridDiv.removeChild(cardGridDiv.children[5]); // Remove the 6th card
                 cardGridDiv.insertBefore(kingCard, cardGridDiv.children[5]); // Insert the King card at the 6th position
             }
 
