@@ -112,13 +112,10 @@
             flex-basis: 25%; /* Takes up 25% of the space */
         }
 
-        .spell-zone {
-            border-color: red;
-        }
-
-        .abyss, .deck {
+        .deck {
             border-color: blue;
         }
+
     </style>
 </head>
 <body>
@@ -282,7 +279,7 @@
                 // Make 3 cards for the top row
                 for (let i = 0; i < 3; i++) {
                     const emptyCard = document.createElement('div');
-                    emptyCard.classList.add('card', 'spell-zone');
+                    emptyCard.classList.add('card');
                     emptyCard.innerHTML = zoneNames[i + 6]; // Add zone name
                     emptyCard.style.fontSize = '75%'; // Make the text 1.5x as big
                     emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
@@ -298,7 +295,7 @@
                 // Make 5 cards for the bottom row
                 for (let i = 4; i >= 0; i--) {
                     const emptyCard = document.createElement('div');
-                    emptyCard.classList.add('card', i === 4 ? 'abyss' : 'spell-zone');
+                    emptyCard.classList.add('card');
                     emptyCard.innerHTML = zoneNames[i]; // Add zone name
                     emptyCard.style.fontSize = '75%'; // Make the text 1.5x as big
                     emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
@@ -308,7 +305,7 @@
                 // Make 5 cards for the top row
                 for (let i = 0; i < 5; i++) {
                     const emptyCard = document.createElement('div');
-                    emptyCard.classList.add('card', i === 0 ? 'abyss' : 'spell-zone');
+                    emptyCard.classList.add('card');
                     emptyCard.innerHTML = zoneNames[i]; // Add zone name
                     emptyCard.style.fontSize = '75%'; // Make the text 1.5x as big
                     emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
@@ -324,7 +321,7 @@
                 // Make 3 cards for the bottom row
                 for (let i = 0; i < 3; i++) {
                     const emptyCard = document.createElement('div');
-                    emptyCard.classList.add('card', 'spell-zone');
+                    emptyCard.classList.add('card');
                     emptyCard.innerHTML = zoneNames[i + 6]; // Add zone name
                     emptyCard.style.fontSize = '75%'; // Make the text 1.5x as big
                     emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
