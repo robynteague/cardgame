@@ -71,7 +71,7 @@
 <body>
     <div class="vertical-line"></div>
     <div class="game-controls">
-        <h1>Card Game 2:07</h1>
+        <h1>Card Game 1:50</h1>
         <button id="startGame">Start Game</button>
     </div>
     <div id="player1"></div>
@@ -181,21 +181,7 @@
 
             handDiv.appendChild(cardContainer);
 
-            // King Zone
-            const kingZoneDiv = document.createElement('div');
-            kingZoneDiv.classList.add('king-zone');
-            kingZoneDiv.innerHTML = `<h2>Player ${playerNumber} King Zone</h2>`;
-
-            // Add King of Spades to Player 1's King Zone and King of Clubs to Player 2's King Zone
-            if (playerNumber === 1 || playerNumber === 2) {
-                const kingCard = document.createElement('div');
-                kingCard.classList.add('card');
-                kingCard.textContent = `K${getSuitSymbol(playerNumber === 1 ? 'spades' : 'clubs')}`;
-                kingZoneDiv.appendChild(kingCard);
-            }
-
             playerSection.appendChild(handDiv);
-            playerSection.appendChild(kingZoneDiv);
 
             // Card Grid
             const cardGridSection = document.createElement('div'); // Create a new div to wrap the header and the card grid
@@ -212,6 +198,14 @@
                 const emptyCard = document.createElement('div');
                 emptyCard.classList.add('card');
                 cardGridDiv.appendChild(emptyCard);
+            }
+
+            // Add King of Spades to Player 1's King Zone and King of Clubs to Player 2's King Zone
+            if (playerNumber === 1 || playerNumber === 2) {
+                const kingCard = document.createElement('div');
+                kingCard.classList.add('card');
+                kingCard.textContent = `K${getSuitSymbol(playerNumber === 1 ? 'spades' : 'clubs')}`;
+                cardGridDiv.insertBefore(kingCard, cardGridDiv.children[5]); // Insert the King card at the 6th position
             }
 
             cardGridSection.appendChild(cardGridDiv); // Add the card grid to the new div
