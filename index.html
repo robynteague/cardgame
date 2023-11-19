@@ -6,11 +6,12 @@
     <title>Card Game</title>
     <style>
         .card {
+            display: flex;
+            justify-content: center;
+            align-items: center;
             border: 1px solid #000;
             padding: 10px;
             margin: 5px;
-            justify-content: center;
-            align-items: center;
             width: 35px; 
             height: 50px; 
             box-sizing: border-box; 
@@ -35,16 +36,21 @@
         }
 
         .card-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: start;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: repeat(2, 1fr);
             gap: 2px;
             width: 245px; /* Adjusted width */
+        }
+
+        .card-grid > :nth-child(10) {
+            grid-column: 5;
+            grid-row: 2;
         }
     </style>
 </head>
 <body>
-    <h1>Card Game 325l</h1>
+    <h1>Card Game 140</h1>
     <button id="startGame">Start Game</button>
     <div id="player1"></div>
     <div id="player1Deck"></div>
@@ -122,22 +128,11 @@
         }
 
         function displayPlayerDeck(deck, playerNumber) {
-            const deckDiv = document.getElementById(`player${playerNumber}Deck`);
-            if (playerNumber === 2) { // Add this line
-                deckDiv.innerHTML = ''; // Add this line
-            } else { // Add this line
-                deckDiv.innerHTML = `<h2>Player ${playerNumber} Deck</h2>`;
-            } // Add this line
-
-            const cardContainer = document.createElement('div');
-            cardContainer.classList.add('card-container');
-
-            const cardDiv = document.createElement('div');
-            cardDiv.classList.add('card');
-            cardDiv.textContent = deck.length;
-            cardContainer.appendChild(cardDiv);
-
-            deckDiv.appendChild(cardContainer);
+            const cardGridDiv = document.getElementById(`player${playerNumber}CardGrid`);
+            const deckDiv = document.createElement('div');
+            deckDiv.classList.add('card');
+            deckDiv.textContent = deck.length;
+            cardGridDiv.appendChild(deckDiv);
         }
 
         function displayPlayerArea(hand, playerNumber) {
@@ -188,20 +183,14 @@
             cardGridSection.appendChild(cardGridHeader); // Add the header to the new div
 
             const cardGridDiv = document.createElement('div');
+            cardGridDiv.id = `player${playerNumber}CardGrid`;
             cardGridDiv.classList.add('card-grid');
 
-            for (let i = 0; i < 9; i++) { // Change this line
+            for (let i = 0; i < 10; i++) {
                 const emptyCard = document.createElement('div');
                 emptyCard.classList.add('card');
                 cardGridDiv.appendChild(emptyCard);
             }
-
-            // Add Player 2's deck as the 10th card
-            if (playerNumber === 2) { // Add this line
-                const deckDiv = document.getElementById(`player2Deck`);
-                const deckCard = deckDiv.querySelector('.card');
-                cardGridDiv.appendChild(deckCard);
-            } // Add this line
 
             cardGridSection.appendChild(cardGridDiv); // Add the card grid to the new div
 
