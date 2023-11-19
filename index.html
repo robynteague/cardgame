@@ -127,7 +127,7 @@
         </div>
         <div class="information-area">
             <div class="game-controls">
-                <h1>Card Game 3:20</h1>
+                <h1>Card Game 1:20</h1>
                 <button id="startGame">Start Game</button>
                 <div id="eventLog"></div>
             </div>
@@ -311,37 +311,47 @@
 
         document.getElementById('startGame').addEventListener('click', () => {
             logEvent('---NEW GAME---'); // New log event
+
+            // Display Shared Extra Deck first
+            displaySharedExtraDeck();
+            logEvent('Shared Extra Deck dealt');
+
+            // Create the deck
             const deck = createDeck();
             logEvent('Deck created');
             
+            // Shuffle the deck
             shuffleDeck(deck);
             logEvent('Deck shuffled');
 
+            // Split the deck
             const deck1 = deck.slice(0, deck.length / 2);
             const deck2 = deck.slice(deck.length / 2);
             logEvent('Deck split');
 
+            // Deal the hands
             const player1Hand = dealCards(deck1, 2); // for player 1
             const player2Hand = dealCards(deck2, 2); // for player 2
-            logEvent('Hands dealt');
 
+            // Clear the player areas
             document.getElementById('player1').innerHTML = '';
             document.getElementById('player2').innerHTML = '';
-            document.getElementById('sharedExtraDeck').innerHTML = '';
 
-            // Display Player 2's Hand, King Zone, and Deck
-            displayPlayerDeck(deck2, 1);
+            // Display Player 2's Grid
+            displayPlayerArea([], 1, true); // Pass an empty hand for now
+            logEvent('Player 2 grid dealt');
+
+            // Display Player 1's Grid
+            displayPlayerArea([], 2, false); // Pass an empty hand for now
+            logEvent('Player 1 grid dealt');
+
+            // Display Player 2's Hand
             displayPlayerArea(player2Hand, 1, true);
-            logEvent('Player 1 dealt');
+            logEvent('Player 2 hand dealt');
 
-            // Display Shared Extra Deck
-            displaySharedExtraDeck();
-            logEvent('Shared Extra Deck dealt');
-
-            // Display Player 1's King Zone, Hand, and Deck
-            displayPlayerDeck(deck1, 2);
+            // Display Player 1's Hand
             displayPlayerArea(player1Hand, 2, false);
-            logEvent('Player 2 dealt');
+            logEvent('Player 1 hand dealt');
         });
     </script>
 </body>
