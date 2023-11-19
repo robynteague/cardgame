@@ -117,7 +117,11 @@
         }
 
         .abyss {
-            background-color: blue;
+            border-color: blue;
+        }
+
+        .spell-zone {
+            border-color: red;
         }
 
     </style>
@@ -290,6 +294,9 @@
                     if (zoneNames[i + 6] === 'Abyss') {
                         emptyCard.classList.add('abyss');
                     }
+                    if (zoneNames[i + 6] === 'Spell<br>Zone') {
+                        emptyCard.classList.add('spell-zone');
+                    }
                     cardGridDiv.appendChild(emptyCard);
                 }
 
@@ -309,6 +316,9 @@
                     if (zoneNames[i] === 'Abyss') {
                         emptyCard.classList.add('abyss');
                     }
+                    if (zoneNames[i] === 'Spell<br>Zone') {
+                        emptyCard.classList.add('spell-zone');
+                    }
                     cardGridDiv.appendChild(emptyCard);
                 }
             } else { // If Player 1
@@ -321,6 +331,9 @@
                     emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
                     if (zoneNames[i] === 'Abyss') {
                         emptyCard.classList.add('abyss');
+                    }
+                    if (zoneNames[i] === 'Spell<br>Zone') {
+                        emptyCard.classList.add('spell-zone');
                     }
                     cardGridDiv.appendChild(emptyCard);
                 }
@@ -340,6 +353,409 @@
                     emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
                     if (zoneNames[i + 6] === 'Abyss') {
                         emptyCard.classList.add('abyss');
+                    }
+                    if (zoneNames[i + 6] === 'Spell<br>Zone') {
+                        emptyCard.classList.add('spell-zone');
+                    }
+                    cardGridDiv.appendChild(emptyCard);
+                }
+
+                // Insert deck
+                const deckCard = document.getElementById(`player${playerNumber}Deck`);
+                if (deckCard) {
+                    // Add the deck card to the grid
+                    cardGridDiv.appendChild(deckCard);
+                }
+            }
+
+            cardGridSection.appendChild(cardGridDiv); // Add the card grid to the new div
+
+            if (isHandFirst) {
+                playerSection.appendChild(handDiv);
+                playerSection.appendChild(cardGridSection);
+            } else {
+                playerSection.appendChild(cardGridSection);
+                playerSection.appendChild(handDiv);
+            }
+
+            playersDiv.appendChild(playerSection);
+        }
+
+        document.getElementById('startGame').addEventListener('click', () => {
+            logEvent('---NEW GAME---'); // New log event
+            const deck = createDeck();
+            logEvent('Deck created');
+            
+            shuffleDeck(deck);
+            logEvent('Deck shuffled');
+
+            const deck1 = deck.slice(0, deck.length / 2);
+            const deck2 = deck.slice(deck.length / 2);
+            logEvent('Deck split');
+
+            const player1Hand = dealCards(deck1, 2); // for player 1
+            const player2Hand = dealCards(deck2, 2); // for player 2
+            logEvent('Hands dealt');
+
+            document.getElementById('player1').innerHTML = '';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Game</title>
+    <style>
+        body {
+            position: relative; /* This is needed to position the game controls correctly */
+        }
+
+        .game-controls {
+            position: absolute; /* This positions the controls independently of other content */
+            top: 0; /* This positions the controls at the top of the body */
+            right: 0; /* This positions the controls at the right of the body */
+        }
+
+        .vertical-line {
+            position: fixed;
+            top: 0;
+            left: 75%; /* This positions the line 3/4 of the way across the screen */
+            width: 1px; /* This is the width of the line */
+            height: 100%; /* This makes the line cover the full height of the document */
+            background-color: #000; /* This is the color of the line */
+        }
+
+        .card {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #000;
+            padding: 10px;
+            margin: 5px;
+            width: 70px; 
+            height: 100px; 
+            box-sizing: border-box; 
+            text-align: center; /* Center the text */
+        }
+        .player-hand, .king-zone {
+            margin-bottom: 20px;
+        }
+        .red {
+            color: red;
+        }
+
+        h1 {
+            font-size: 240%; /* Reduced size */
+            font-family: sans-serif;
+        }
+
+        h2 {
+            font-size: 75%; /* Half the original size */
+            font-family: sans-serif;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .card-container.card-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 5px;
+            width: 196px; /* Fixed width */
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: repeat(2, 1fr); /* Adjusted rows */
+            gap: 2px;
+            width: 490px; /* Adjusted width */
+        }
+
+        .card-grid > :nth-child(10) { /* Adjusted child */
+            grid-column: 5;
+            grid-row: 2;
+        }
+
+        #eventLog {
+            width: max-content; /* This will make the width fit the content */
+            max-height: 12em; /* 10 lines * line height + some extra space for padding */
+            overflow: auto; /* This will add a scrollbar if the content exceeds the max height */
+            border: 1px solid #000; /* This will add a border around the box */
+            padding: 10px; /* This will add some space around the text */
+            margin-bottom: 20px; /* This will add some space below the box */
+            line-height: 1.2em; /* Adjust this to match your actual line height */
+            font-family: sans-serif; /* Change the font to sans-serif */
+        }
+
+        .big-font {
+            font-size: 200%;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh; /* Full height of the viewport */
+        }
+
+        .play-area-a {
+            flex-basis: 50%; /* Takes up 50% of the space */
+        }
+
+        .play-area-b {
+            flex-basis: 25%; /* Takes up 25% of the space */
+        }
+
+        .information-area {
+            flex-basis: 25%; /* Takes up 25% of the space */
+        }
+
+        .deck {
+            border-color: blue;
+        }
+
+        .abyss {
+            border-color: blue;
+        }
+
+        .spell-zone {
+            border-color: red;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="vertical-line"></div>
+    <div class="container">
+        <div class="play-area-a">
+            <div id="player1"></div>
+            <div id="player1Deck"></div>
+            <div id="player2"></div>
+            <div id="player2Deck"></div>
+        </div>
+        <div class="play-area-b">
+            <div id="sharedExtraDeck"></div>
+        </div>
+        <div class="information-area">
+            <div class="game-controls">
+                <h1>Card Game 3:20</h1>
+                <button id="startGame">Start Game</button>
+                <div id="eventLog"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let eventLog = [];
+
+        function logEvent(event) {
+            eventLog.push(event);
+            const eventLogDiv = document.getElementById('eventLog');
+            eventLogDiv.innerHTML = `<h2>Event Log</h2>${eventLog.join('<br>')}`;
+            eventLogDiv.scrollTop = eventLogDiv.scrollHeight; // Scroll to the bottom
+        }
+
+        function colorCard(cardDiv, card) {
+          if (card.suit === 'hearts' || card.suit === 'diamonds') {
+              cardDiv.classList.add('red');
+          }
+        }
+
+        function displaySharedExtraDeck() {
+            const sharedExtraDeckDiv = document.getElementById('sharedExtraDeck');
+            sharedExtraDeckDiv.innerHTML = '<h2>Shared Extra Deck</h2>';
+        
+            const cards = [
+                { rank: 'Q', suit: 'spades' },
+                { rank: 'Q', suit: 'clubs' },
+                { rank: 'J', suit: 'spades' },
+                { rank: 'J', suit: 'clubs' }
+            ];
+
+            const cardContainer = document.createElement('div');
+            cardContainer.classList.add('card-container', 'card-grid'); // Add 'card-grid' class
+        
+            cards.forEach(card => {
+                const cardDiv = document.createElement('div');
+                cardDiv.classList.add('card', 'big-font');
+                colorCard(cardDiv, card);
+                cardDiv.textContent = `${card.rank}${getSuitSymbol(card.suit)}`;
+                cardContainer.appendChild(cardDiv);
+            });
+
+            sharedExtraDeckDiv.appendChild(cardContainer);
+        }
+
+        function createDeck() {
+            const suits = ['hearts', 'diamonds', 'clubs', 'spades'];
+            const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'A'];
+            const deck = [];
+
+            for (let suit of suits) {
+                for (let rank of ranks) {
+                    if (!((suit === 'spades' || suit === 'clubs') && (rank === 'Q' || rank === 'J'))) {
+                        deck.push({ rank, suit });
+                    }
+                }
+            }
+
+            return deck;
+        }
+
+        function dealCards(deck, numCards) {
+            return deck.splice(0, numCards);
+        }
+
+        function shuffleDeck(deck) {
+            for (let i = deck.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [deck[i], deck[j]] = [deck[j], deck[i]];
+            }
+        }
+
+        function getSuitSymbol(suit) {
+            const suitSymbols = {
+                'hearts': '♥',
+                'diamonds': '♦',
+                'clubs': '♣',
+                'spades': '♠'
+            };
+            return suitSymbols[suit];
+        }
+
+        function displayPlayerDeck(deck, playerNumber) {
+            const deckDiv = document.createElement('div');
+            deckDiv.classList.add('card', 'deck');
+            deckDiv.innerHTML = `Deck<br>(${deck.length})`; // Add "Deck" before the number with a line break
+            deckDiv.id = `player${playerNumber}Deck`; // Add an id to the deck card
+            deckDiv.style.fontSize = '75%'; // Make the text 75% as big
+            deckDiv.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
+
+            // Append the deck card to the player's div
+            const playerDiv = document.getElementById(`player${playerNumber}`);
+            playerDiv.appendChild(deckDiv);
+        }
+
+        function displayPlayerArea(hand, playerNumber, isHandFirst) {
+            const playersDiv = document.getElementById(`player${playerNumber}`);
+
+            const playerSection = document.createElement('div');
+            playerSection.classList.add('player-section');
+
+            // Player Hand
+            const handDiv = document.createElement('div');
+            handDiv.classList.add('player-hand');
+            handDiv.innerHTML = `<h2>Player ${3 - playerNumber} Hand</h2>`;
+
+            const cardContainer = document.createElement('div');
+            cardContainer.classList.add('card-container');
+
+            hand.forEach(card => {
+                const cardDiv = document.createElement('div');
+                cardDiv.classList.add('card', 'big-font');
+                colorCard(cardDiv, card);
+                cardDiv.textContent = `${card.rank}${getSuitSymbol(card.suit)}`;
+                cardContainer.appendChild(cardDiv);
+            });
+
+            handDiv.appendChild(cardContainer);
+
+            // Card Grid
+            const cardGridSection = document.createElement('div'); // Create a new div to wrap the header and the card grid
+
+            const cardGridHeader = document.createElement('h2');
+            cardGridHeader.textContent = `Player ${3 - playerNumber} Card Grid`;
+            cardGridSection.appendChild(cardGridHeader); // Add the header to the new div
+
+            const cardGridDiv = document.createElement('div');
+            cardGridDiv.id = `player${playerNumber}CardGrid`;
+            cardGridDiv.classList.add('card-grid');
+
+            // Define zone names
+            const zoneNames = ['Prison', 'Spell<br>Zone', 'Spell<br>Zone', 'Spell<br>Zone', 'Abyss', 'King', 'Monster<br>Zone', 'Monster<br>Zone', 'Monster<br>Zone', 'Deck'];
+
+            if (playerNumber === 1) { // If Player 2
+                // Insert deck
+                const deckCard = document.getElementById(`player${playerNumber}Deck`);
+                if (deckCard) {
+                    // Add the deck card to the grid
+                    cardGridDiv.appendChild(deckCard);
+                }
+
+                // Make 3 cards for the top row
+                for (let i = 0; i < 3; i++) {
+                    const emptyCard = document.createElement('div');
+                    emptyCard.classList.add('card');
+                    emptyCard.innerHTML = zoneNames[i + 6]; // Add zone name
+                    emptyCard.style.fontSize = '75%'; // Make the text 1.5x as big
+                    emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
+                    if (zoneNames[i + 6] === 'Abyss') {
+                        emptyCard.classList.add('abyss');
+                    }
+                    if (zoneNames[i + 6] === 'Spell<br>Zone') {
+                        emptyCard.classList.add('spell-zone');
+                    }
+                    cardGridDiv.appendChild(emptyCard);
+                }
+
+                // Insert King
+                const kingCard = document.createElement('div');
+                kingCard.classList.add('card', 'big-font');
+                kingCard.textContent = `K${getSuitSymbol(playerNumber === 1 ? 'spades' : 'clubs')}`;
+                cardGridDiv.appendChild(kingCard);
+
+                // Make 5 cards for the bottom row
+                for (let i = 4; i >= 0; i--) {
+                    const emptyCard = document.createElement('div');
+                    emptyCard.classList.add('card');
+                    emptyCard.innerHTML = zoneNames[i]; // Add zone name
+                    emptyCard.style.fontSize = '75%'; // Make the text 1.5x as big
+                    emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
+                    if (zoneNames[i] === 'Abyss') {
+                        emptyCard.classList.add('abyss');
+                    }
+                    if (zoneNames[i] === 'Spell<br>Zone') {
+                        emptyCard.classList.add('spell-zone');
+                    }
+                    cardGridDiv.appendChild(emptyCard);
+                }
+            } else { // If Player 1
+                // Make 5 cards for the top row
+                for (let i = 0; i < 5; i++) {
+                    const emptyCard = document.createElement('div');
+                    emptyCard.classList.add('card');
+                    emptyCard.innerHTML = zoneNames[i]; // Add zone name
+                    emptyCard.style.fontSize = '75%'; // Make the text 1.5x as big
+                    emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
+                    if (zoneNames[i] === 'Abyss') {
+                        emptyCard.classList.add('abyss');
+                    }
+                    if (zoneNames[i] === 'Spell<br>Zone') {
+                        emptyCard.classList.add('spell-zone');
+                    }
+                    cardGridDiv.appendChild(emptyCard);
+                }
+
+                // Insert King
+                const kingCard = document.createElement('div');
+                kingCard.classList.add('card', 'big-font');
+                kingCard.textContent = `K${getSuitSymbol(playerNumber === 1 ? 'spades' : 'clubs')}`;
+                cardGridDiv.appendChild(kingCard);
+
+                // Make 3 cards for the bottom row
+                for (let i = 0; i < 3; i++) {
+                    const emptyCard = document.createElement('div');
+                    emptyCard.classList.add('card');
+                    emptyCard.innerHTML = zoneNames[i + 6]; // Add zone name
+                    emptyCard.style.fontSize = '75%'; // Make the text 1.5x as big
+                    emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
+                    if (zoneNames[i + 6] === 'Abyss') {
+                        emptyCard.classList.add('abyss');
+                    }
+                    if (zoneNames[i + 6] === 'Spell<br>Zone') {
+                        emptyCard.classList.add('spell-zone');
                     }
                     cardGridDiv.appendChild(emptyCard);
                 }
