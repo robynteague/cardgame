@@ -37,7 +37,7 @@
     </style>
 </head>
 <body>
-    <h1>Card Game 335</h1>
+    <h1>Card Game 325</h1>
     <button id="startGame">Start Game</button>
     <div id="player1"></div>
     <div id="sharedExtraDeck"></div>
@@ -98,7 +98,6 @@
 
             for (let suit of suits) {
                 for (let rank of ranks) {
-                    deck.push({ rank, suit });
                     if (!((suit === 'spades' || suit === 'clubs') && (rank === 'Q' || rank === 'J'))) {
                         deck.push({ rank, suit });
                     }
