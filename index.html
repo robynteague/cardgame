@@ -288,7 +288,7 @@
                 cardGridDiv.appendChild(kingCard);
 
                 // Make 5 cards for the bottom row
-                for (let i = 0; i < 5; i++) {
+                for (let i = 4; i >= 0; i--) {
                     const emptyCard = document.createElement('div');
                     emptyCard.classList.add('card');
                     emptyCard.innerHTML = zoneNames[i]; // Add zone name
