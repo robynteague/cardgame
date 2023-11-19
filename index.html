@@ -127,7 +127,7 @@
         </div>
         <div class="information-area">
             <div class="game-controls">
-                <h1>Card Game 1:20</h1>
+                <h1>Card Game 3:20</h1>
                 <button id="startGame">Start Game</button>
                 <div id="eventLog"></div>
             </div>
@@ -263,37 +263,72 @@
             // Define zone names
             const zoneNames = ['Prison', 'Spell<br>Zone', 'Spell<br>Zone', 'Spell<br>Zone', 'Abyss', 'King', 'Monster<br>Zone', 'Monster<br>Zone', 'Monster<br>Zone', 'Deck'];
 
-            // Make 5 cards for the top row
-            for (let i = 0; i < 5; i++) {
-                const emptyCard = document.createElement('div');
-                emptyCard.classList.add('card');
-                emptyCard.innerHTML = zoneNames[i]; // Add zone name
-                emptyCard.style.fontSize = '75%'; // Make the text 1.5x as big
-                emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
-                cardGridDiv.appendChild(emptyCard);
-            }
+            if (playerNumber === 1) { // If Player 2
+                // Insert deck
+                const deckCard = document.getElementById(`player${playerNumber}Deck`);
+                if (deckCard) {
+                    // Add the deck card to the grid
+                    cardGridDiv.appendChild(deckCard);
+                }
 
-            // Insert King
-            const kingCard = document.createElement('div');
-            kingCard.classList.add('card', 'big-font');
-            kingCard.textContent = `K${getSuitSymbol(playerNumber === 1 ? 'spades' : 'clubs')}`;
-            cardGridDiv.appendChild(kingCard);
+                // Make 3 cards for the top row
+                for (let i = 0; i < 3; i++) {
+                    const emptyCard = document.createElement('div');
+                    emptyCard.classList.add('card');
+                    emptyCard.innerHTML = zoneNames[i + 6]; // Add zone name
+                    emptyCard.style.fontSize = '75%'; // Make the text 1.5x as big
+                    emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
+                    cardGridDiv.appendChild(emptyCard);
+                }
 
-            // Make 3 cards for the bottom row
-            for (let i = 0; i < 3; i++) {
-                const emptyCard = document.createElement('div');
-                emptyCard.classList.add('card');
-                emptyCard.innerHTML = zoneNames[i + 6]; // Add zone name
-                emptyCard.style.fontSize = '75%'; // Make the text 1.5x as big
-                emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
-                cardGridDiv.appendChild(emptyCard);
-            }
+                // Insert King
+                const kingCard = document.createElement('div');
+                kingCard.classList.add('card', 'big-font');
+                kingCard.textContent = `K${getSuitSymbol(playerNumber === 1 ? 'spades' : 'clubs')}`;
+                cardGridDiv.appendChild(kingCard);
 
-            // Insert deck
-            const deckCard = document.getElementById(`player${playerNumber}Deck`);
-            if (deckCard) {
-                // Add the deck card to the grid
-                cardGridDiv.appendChild(deckCard);
+                // Make 5 cards for the bottom row
+                for (let i = 0; i < 5; i++) {
+                    const emptyCard = document.createElement('div');
+                    emptyCard.classList.add('card');
+                    emptyCard.innerHTML = zoneNames[i]; // Add zone name
+                    emptyCard.style.fontSize = '75%'; // Make the text 1.5x as big
+                    emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
+                    cardGridDiv.appendChild(emptyCard);
+                }
+            } else { // If Player 1
+                // Make 5 cards for the top row
+                for (let i = 0; i < 5; i++) {
+                    const emptyCard = document.createElement('div');
+                    emptyCard.classList.add('card');
+                    emptyCard.innerHTML = zoneNames[i]; // Add zone name
+                    emptyCard.style.fontSize = '75%'; // Make the text 1.5x as big
+                    emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
+                    cardGridDiv.appendChild(emptyCard);
+                }
+
+                // Insert King
+                const kingCard = document.createElement('div');
+                kingCard.classList.add('card', 'big-font');
+                kingCard.textContent = `K${getSuitSymbol(playerNumber === 1 ? 'spades' : 'clubs')}`;
+                cardGridDiv.appendChild(kingCard);
+
+                // Make 3 cards for the bottom row
+                for (let i = 0; i < 3; i++) {
+                    const emptyCard = document.createElement('div');
+                    emptyCard.classList.add('card');
+                    emptyCard.innerHTML = zoneNames[i + 6]; // Add zone name
+                    emptyCard.style.fontSize = '75%'; // Make the text 1.5x as big
+                    emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
+                    cardGridDiv.appendChild(emptyCard);
+                }
+
+                // Insert deck
+                const deckCard = document.getElementById(`player${playerNumber}Deck`);
+                if (deckCard) {
+                    // Add the deck card to the grid
+                    cardGridDiv.appendChild(deckCard);
+                }
             }
 
             cardGridSection.appendChild(cardGridDiv); // Add the card grid to the new div
@@ -311,47 +346,37 @@
 
         document.getElementById('startGame').addEventListener('click', () => {
             logEvent('---NEW GAME---'); // New log event
-
-            // Display Shared Extra Deck first
-            displaySharedExtraDeck();
-            logEvent('Shared Extra Deck dealt');
-
-            // Create the deck
             const deck = createDeck();
             logEvent('Deck created');
             
-            // Shuffle the deck
             shuffleDeck(deck);
             logEvent('Deck shuffled');
 
-            // Split the deck
             const deck1 = deck.slice(0, deck.length / 2);
             const deck2 = deck.slice(deck.length / 2);
             logEvent('Deck split');
 
-            // Deal the hands
             const player1Hand = dealCards(deck1, 2); // for player 1
             const player2Hand = dealCards(deck2, 2); // for player 2
+            logEvent('Hands dealt');
 
-            // Clear the player areas
             document.getElementById('player1').innerHTML = '';
             document.getElementById('player2').innerHTML = '';
+            document.getElementById('sharedExtraDeck').innerHTML = '';
 
-            // Display Player 2's Grid
-            displayPlayerArea([], 1, true); // Pass an empty hand for now
-            logEvent('Player 2 grid dealt');
-
-            // Display Player 1's Grid
-            displayPlayerArea([], 2, false); // Pass an empty hand for now
-            logEvent('Player 1 grid dealt');
-
-            // Display Player 2's Hand
+            // Display Player 2's Hand, King Zone, and Deck
+            displayPlayerDeck(deck2, 1);
             displayPlayerArea(player2Hand, 1, true);
-            logEvent('Player 2 hand dealt');
+            logEvent('Player 1 dealt');
 
-            // Display Player 1's Hand
+            // Display Shared Extra Deck
+            displaySharedExtraDeck();
+            logEvent('Shared Extra Deck dealt');
+
+            // Display Player 1's King Zone, Hand, and Deck
+            displayPlayerDeck(deck1, 2);
             displayPlayerArea(player1Hand, 2, false);
-            logEvent('Player 1 hand dealt');
+            logEvent('Player 2 dealt');
         });
     </script>
 </body>
