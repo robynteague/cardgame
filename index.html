@@ -46,7 +46,6 @@
         h1, h2 {
             font-size: 75%; /* Half the original size */
             font-family: sans-serif;
-            text-align: center; /* Center the text */
         }
 
         .card-container {
@@ -181,7 +180,7 @@
             deckDiv.textContent = deck.length;
             deckDiv.id = `player${playerNumber}Deck`; // Add an id to the deck card
             deckDiv.style.fontSize = '50%'; // Make the text half as big
-            deckDiv.style.fontFamily = 'sans-serif'; // Change the font
+            deckDiv.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
 
             // Append the deck card to the player's div
             const playerDiv = document.getElementById(`player${playerNumber}`);
@@ -233,8 +232,8 @@
                 const emptyCard = document.createElement('div');
                 emptyCard.classList.add('card');
                 emptyCard.textContent = zoneNames[i]; // Add zone name
-                emptyCard.style.fontSize = '100%'; // Make the text half as big
-                emptyCard.style.fontFamily = 'sans-serif'; // Change the font
+                emptyCard.style.fontSize = '50%'; // Make the text half as big
+                emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
                 cardGridDiv.appendChild(emptyCard);
             }
 
@@ -249,8 +248,8 @@
                 const emptyCard = document.createElement('div');
                 emptyCard.classList.add('card');
                 emptyCard.textContent = zoneNames[i + 6]; // Add zone name
-                emptyCard.style.fontSize = '100%'; // Make the text half as big
-                emptyCard.style.fontFamily = 'sans-serif'; // Change the font
+                emptyCard.style.fontSize = '50%'; // Make the text half as big
+                emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
                 cardGridDiv.appendChild(emptyCard);
             }
 
