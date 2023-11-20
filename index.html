@@ -238,7 +238,7 @@
             playerDiv.appendChild(deckDiv);
         }
 
-        function displayPlayerArea(hand, playerNumber, isHandFirst) {
+        function displayPlayerArea(hand, deck, playerNumber, isHandFirst) {
             const playersDiv = document.getElementById(`player${playerNumber}`);
 
             const playerSection = document.createElement('div');
@@ -398,7 +398,7 @@
 
             // Display Player 2's Hand, King Zone, and Deck
             displayPlayerDeck(deck2, 1);
-            displayPlayerArea(player2Hand, 1, true);
+            displayPlayerArea(player2Hand, deck2, 1, true);
             logEvent('Player 1 dealt');
 
             // Display Shared Extra Deck
@@ -407,7 +407,7 @@
 
             // Display Player 1's King Zone, Hand, and Deck
             displayPlayerDeck(deck1, 2);
-            displayPlayerArea(player1Hand, 2, false);
+            displayPlayerArea(player1Hand, deck1, 2, false);
             logEvent('Player 2 dealt');
         });
     </script>
