@@ -276,6 +276,13 @@
             // Define zone names
             const zoneNames = ['Prison', 'Spell<br>Zone', 'Spell<br>Zone', 'Spell<br>Zone', 'Abyss', 'King', 'Monster<br>Zone', 'Monster<br>Zone', 'Monster<br>Zone', 'Deck'];
 
+            // Define zone counters
+            const zoneCounters = {
+                'Prison': 0,
+                'Abyss': 0,
+                'Deck': deck.length
+            };
+
             if (playerNumber === 1) { // If Player 2
                 // Insert deck
                 const deckCard = document.getElementById(`player${playerNumber}Deck`);
@@ -288,14 +295,11 @@
                 for (let i = 0; i < 3; i++) {
                     const emptyCard = document.createElement('div');
                     emptyCard.classList.add('card');
-                    emptyCard.innerHTML = zoneNames[i + 6]; // Add zone name
+                    emptyCard.innerHTML = `${zoneNames[i + 6]}<br>(${zoneCounters[zoneNames[i + 6]] || ''})`; // Add zone name and counter
                     emptyCard.style.fontSize = '75%'; // Make the text 1.5x as big
                     emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
                     if (zoneNames[i + 6] === 'Spell<br>Zone') {
                         emptyCard.classList.add('spell-zone');
-                    }
-                    if (zoneNames[i + 6] === 'Abyss') {
-                        emptyCard.classList.add('abyss');
                     }
                     cardGridDiv.appendChild(emptyCard);
                 }
@@ -310,12 +314,9 @@
                 for (let i = 4; i >= 0; i--) {
                     const emptyCard = document.createElement('div');
                     emptyCard.classList.add('card');
-                    emptyCard.innerHTML = zoneNames[i]; // Add zone name
+                    emptyCard.innerHTML = `${zoneNames[i]}<br>(${zoneCounters[zoneNames[i]] || ''})`; // Add zone name and counter
                     emptyCard.style.fontSize = '75%'; // Make the text 1.5x as big
                     emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
-                    if (zoneNames[i] === 'Spell<br>Zone') {
-                        emptyCard.classList.add('spell-zone');
-                    }
                     if (zoneNames[i] === 'Abyss') {
                         emptyCard.classList.add('abyss');
                     }
@@ -326,12 +327,9 @@
                 for (let i = 0; i < 5; i++) {
                     const emptyCard = document.createElement('div');
                     emptyCard.classList.add('card');
-                    emptyCard.innerHTML = zoneNames[i]; // Add zone name
+                    emptyCard.innerHTML = `${zoneNames[i]}<br>(${zoneCounters[zoneNames[i]] || ''})`; // Add zone name and counter
                     emptyCard.style.fontSize = '75%'; // Make the text 1.5x as big
                     emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
-                    if (zoneNames[i] === 'Spell<br>Zone') {
-                        emptyCard.classList.add('spell-zone');
-                    }
                     if (zoneNames[i] === 'Abyss') {
                         emptyCard.classList.add('abyss');
                     }
@@ -348,12 +346,9 @@
                 for (let i = 0; i < 3; i++) {
                     const emptyCard = document.createElement('div');
                     emptyCard.classList.add('card');
-                    emptyCard.innerHTML = zoneNames[i + 6]; // Add zone name
+                    emptyCard.innerHTML = `${zoneNames[i + 6]}<br>(${zoneCounters[zoneNames[i + 6]] || ''})`; // Add zone name and counter
                     emptyCard.style.fontSize = '75%'; // Make the text 1.5x as big
                     emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
-                    if (zoneNames[i + 6] === 'Spell<br>Zone') {
-                        emptyCard.classList.add('spell-zone');
-                    }
                     if (zoneNames[i + 6] === 'Abyss') {
                         emptyCard.classList.add('abyss');
                     }
