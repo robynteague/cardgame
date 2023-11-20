@@ -117,7 +117,11 @@
         }
 
         .abyss {
-            background-color: blue;
+            border-color: blue;
+        }
+
+        .spell-zone {
+            border-color: red;
         }
 
     </style>
@@ -287,8 +291,8 @@
                     emptyCard.innerHTML = zoneNames[i + 6]; // Add zone name
                     emptyCard.style.fontSize = '75%'; // Make the text 1.5x as big
                     emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
-                    if (zoneNames[i + 6] === 'Abyss') {
-                        emptyCard.classList.add('abyss');
+                    if (zoneNames[i + 6] === 'Spell<br>Zone') {
+                        emptyCard.classList.add('spell-zone');
                     }
                     cardGridDiv.appendChild(emptyCard);
                 }
