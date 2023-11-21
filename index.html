@@ -150,6 +150,7 @@
     <script>
         let eventLog = [];
         let abyssCount = 0; // Added variable to keep track of the number of cards in the Abyss
+        let prisonCount = 0; // Added variable to keep track of the number of cards in the Prison
 
         function logEvent(event) {
             eventLog.push(event);
@@ -168,6 +169,12 @@
             abyssCount += change;
             const abyssCard = document.querySelector('.abyss');
             abyssCard.innerHTML = `Abyss<br>(${abyssCount})`;
+        }
+
+        function updatePrisonCount(change) { // Added function to update the Prison count
+            prisonCount += change;
+            const prisonCard = document.querySelector('.prison');
+            prisonCard.innerHTML = `Prison<br>(${prisonCount})`;
         }
 
         function displaySharedExtraDeck() {
@@ -305,6 +312,10 @@
                         emptyCard.classList.add('abyss');
                         emptyCard.innerHTML = `Abyss<br>(${abyssCount})`; // Display the initial Abyss count
                     }
+                    if (zoneNames[i + 6] === 'Prison') {
+                        emptyCard.classList.add('prison');
+                        emptyCard.innerHTML = `Prison<br>(${prisonCount})`; // Display the initial Prison count
+                    }
                     cardGridDiv.appendChild(emptyCard);
                 }
 
@@ -328,6 +339,10 @@
                         emptyCard.classList.add('abyss');
                         emptyCard.innerHTML = `Abyss<br>(${abyssCount})`; // Display the initial Abyss count
                     }
+                    if (zoneNames[i] === 'Prison') {
+                        emptyCard.classList.add('prison');
+                        emptyCard.innerHTML = `Prison<br>(${prisonCount})`; // Display the initial Prison count
+                    }
                     cardGridDiv.appendChild(emptyCard);
                 }
             } else { // If Player 1
@@ -344,6 +359,10 @@
                     if (zoneNames[i] === 'Abyss') {
                         emptyCard.classList.add('abyss');
                         emptyCard.innerHTML = `Abyss<br>(${abyssCount})`; // Display the initial Abyss count
+                    }
+                    if (zoneNames[i] === 'Prison') {
+                        emptyCard.classList.add('prison');
+                        emptyCard.innerHTML = `Prison<br>(${prisonCount})`; // Display the initial Prison count
                     }
                     cardGridDiv.appendChild(emptyCard);
                 }
@@ -367,6 +386,10 @@
                     if (zoneNames[i + 6] === 'Abyss') {
                         emptyCard.classList.add('abyss');
                         emptyCard.innerHTML = `Abyss<br>(${abyssCount})`; // Display the initial Abyss count
+                    }
+                    if (zoneNames[i + 6] === 'Prison') {
+                        emptyCard.classList.add('prison');
+                        emptyCard.innerHTML = `Prison<br>(${prisonCount})`; // Display the initial Prison count
                     }
                     cardGridDiv.appendChild(emptyCard);
                 }
