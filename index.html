@@ -149,6 +149,7 @@
 
     <script>
         let eventLog = [];
+        let abyssCount = 0; // Added variable to keep track of the number of cards in the Abyss
 
         function logEvent(event) {
             eventLog.push(event);
@@ -161,6 +162,12 @@
           if (card.suit === 'hearts' || card.suit === 'diamonds') {
               cardDiv.classList.add('red');
           }
+        }
+
+        function updateAbyssCount(change) { // Added function to update the Abyss count
+            abyssCount += change;
+            const abyssCard = document.querySelector('.abyss');
+            abyssCard.innerHTML = `Abyss<br>(${abyssCount})`;
         }
 
         function displaySharedExtraDeck() {
@@ -238,7 +245,7 @@
             playerDiv.appendChild(deckDiv);
         }
 
-        function displayPlayerArea(hand, deck, playerNumber, isHandFirst) {
+        function displayPlayerArea(hand, playerNumber, isHandFirst) {
             const playersDiv = document.getElementById(`player${playerNumber}`);
 
             const playerSection = document.createElement('div');
@@ -276,13 +283,6 @@
             // Define zone names
             const zoneNames = ['Prison', 'Spell<br>Zone', 'Spell<br>Zone', 'Spell<br>Zone', 'Abyss', 'King', 'Monster<br>Zone', 'Monster<br>Zone', 'Monster<br>Zone', 'Deck'];
 
-            // Define zone counters
-            const zoneCounters = {
-                'Prison': 0,
-                'Abyss': 0,
-                'Deck': deck.length
-            };
-
             if (playerNumber === 1) { // If Player 2
                 // Insert deck
                 const deckCard = document.getElementById(`player${playerNumber}Deck`);
@@ -295,11 +295,15 @@
                 for (let i = 0; i < 3; i++) {
                     const emptyCard = document.createElement('div');
                     emptyCard.classList.add('card');
-                    emptyCard.innerHTML = `${zoneNames[i + 6]}<br>(${zoneCounters[zoneNames[i + 6]] || ''})`; // Add zone name and counter
+                    emptyCard.innerHTML = zoneNames[i + 6]; // Add zone name
                     emptyCard.style.fontSize = '75%'; // Make the text 1.5x as big
                     emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
                     if (zoneNames[i + 6] === 'Spell<br>Zone') {
                         emptyCard.classList.add('spell-zone');
+                    }
+                    if (zoneNames[i + 6] === 'Abyss') {
+                        emptyCard.classList.add('abyss');
+                        emptyCard.innerHTML = `Abyss<br>(${abyssCount})`; // Display the initial Abyss count
                     }
                     cardGridDiv.appendChild(emptyCard);
                 }
@@ -314,11 +318,15 @@
                 for (let i = 4; i >= 0; i--) {
                     const emptyCard = document.createElement('div');
                     emptyCard.classList.add('card');
-                    emptyCard.innerHTML = `${zoneNames[i]}<br>(${zoneCounters[zoneNames[i]] || ''})`; // Add zone name and counter
+                    emptyCard.innerHTML = zoneNames[i]; // Add zone name
                     emptyCard.style.fontSize = '75%'; // Make the text 1.5x as big
                     emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
+                    if (zoneNames[i] === 'Spell<br>Zone') {
+                        emptyCard.classList.add('spell-zone');
+                    }
                     if (zoneNames[i] === 'Abyss') {
                         emptyCard.classList.add('abyss');
+                        emptyCard.innerHTML = `Abyss<br>(${abyssCount})`; // Display the initial Abyss count
                     }
                     cardGridDiv.appendChild(emptyCard);
                 }
@@ -327,11 +335,15 @@
                 for (let i = 0; i < 5; i++) {
                     const emptyCard = document.createElement('div');
                     emptyCard.classList.add('card');
-                    emptyCard.innerHTML = `${zoneNames[i]}<br>(${zoneCounters[zoneNames[i]] || ''})`; // Add zone name and counter
+                    emptyCard.innerHTML = zoneNames[i]; // Add zone name
                     emptyCard.style.fontSize = '75%'; // Make the text 1.5x as big
                     emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
+                    if (zoneNames[i] === 'Spell<br>Zone') {
+                        emptyCard.classList.add('spell-zone');
+                    }
                     if (zoneNames[i] === 'Abyss') {
                         emptyCard.classList.add('abyss');
+                        emptyCard.innerHTML = `Abyss<br>(${abyssCount})`; // Display the initial Abyss count
                     }
                     cardGridDiv.appendChild(emptyCard);
                 }
@@ -346,11 +358,15 @@
                 for (let i = 0; i < 3; i++) {
                     const emptyCard = document.createElement('div');
                     emptyCard.classList.add('card');
-                    emptyCard.innerHTML = `${zoneNames[i + 6]}<br>(${zoneCounters[zoneNames[i + 6]] || ''})`; // Add zone name and counter
+                    emptyCard.innerHTML = zoneNames[i + 6]; // Add zone name
                     emptyCard.style.fontSize = '75%'; // Make the text 1.5x as big
                     emptyCard.style.fontFamily = 'sans-serif'; // Change the font to sans-serif
+                    if (zoneNames[i + 6] === 'Spell<br>Zone') {
+                        emptyCard.classList.add('spell-zone');
+                    }
                     if (zoneNames[i + 6] === 'Abyss') {
                         emptyCard.classList.add('abyss');
+                        emptyCard.innerHTML = `Abyss<br>(${abyssCount})`; // Display the initial Abyss count
                     }
                     cardGridDiv.appendChild(emptyCard);
                 }
@@ -398,7 +414,7 @@
 
             // Display Player 2's Hand, King Zone, and Deck
             displayPlayerDeck(deck2, 1);
-            displayPlayerArea(player2Hand, deck2, 1, true);
+            displayPlayerArea(player2Hand, 1, true);
             logEvent('Player 1 dealt');
 
             // Display Shared Extra Deck
@@ -407,7 +423,7 @@
 
             // Display Player 1's King Zone, Hand, and Deck
             displayPlayerDeck(deck1, 2);
-            displayPlayerArea(player1Hand, deck1, 2, false);
+            displayPlayerArea(player1Hand, 2, false);
             logEvent('Player 2 dealt');
         });
     </script>
